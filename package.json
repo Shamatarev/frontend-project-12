@@ -1,0 +1,26 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/Shamatarev/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Shamatarev/frontend-project-12/actions)",
+  "main": "index.js",
+  "proxy": "http://localhost:5001",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start-server -s ./frontend/build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shamatarev/frontend-project-12.git"
+
+  },
+  "author": "Shamatarev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shamatarev/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/Shamatarev/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}
