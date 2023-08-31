@@ -2,35 +2,65 @@
 // @ts-nocheck
 /* eslint-disable react/jsx-no-constructed-context-values */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  // eslint-disable-next-line no-unused-vars
-  Link,
   Navigate,
-  //useLocation,
 } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
-import { Button, Navbar, Nav } from 'react-bootstrap';
-import LoginPage from './Components/LoginPage.jsx';
-import MainPage from './Components/MainPage.jsx';
-import AuthContext from './contexts/index.jsx';
-import useAuth from './hooks/index.jsx';
+import LoginPage from './Login/LoginPage.jsx';
+import MainPage from './Chat/MainPage.jsx';
+import AuthContext from '../contexts/index.jsx';
+import useAuth from '../hooks/index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
+const apiPath = '/api/v1';
+
+const routes = {
+  loginPath: () => [apiPath, 'login'].join('/'),
+  usersPath: () => [apiPath, 'data'].join('/'),
+};
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const saveUserData = JSON.parse(localStorage.getItem('userId'))
 
-  const logIn = () => setLoggedIn(true);
+   console.log('saveUserData',saveUserData)
+   console.log(Boolean(saveUserData))
+  const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
+  const [authCompleted, setAuthCompleted] = useState(false);
+
+  const logIn = async (values) => {
+    try {
+      const res = await axios.post(routes.loginPath(), values);
+      localStorage.setItem('userId', JSON.stringify(res.data));
+      setLoggedIn(true);
+      setAuthCompleted(true);
+    } catch (error) {
+      console.error('Authorization failed:', error);
+    }
+  };
+
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
+    setAuthCompleted(true);
   };
 
+  useEffect(() => {
+    if (!authCompleted) {
+      return; // Wait until authentication is completed
+    }
+
+    if (loggedIn) {
+      window.location.href = '/private';
+    } else {
+      window.location.href = '/login'; 
+    }
+  }, [authCompleted, loggedIn]);
+
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut, saveUserData }}>
       {children}
     </AuthContext.Provider>
   );
@@ -38,19 +68,14 @@ const AuthProvider = ({ children }) => {
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-
+  console.log(13123131, auth.loggedIn)
   // Если пользователь не авторизован, перенаправляем на страницу логина
   if (!auth.loggedIn) {
     return <Navigate to="/login" />;
   }
-
+  
   return element;
 };
-
-
-
-
-
 
 const App = () => (
   <AuthProvider>

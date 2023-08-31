@@ -1,21 +1,16 @@
 // @ts-nocheck
 
-import axios from 'axios';
+//import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/index';
+import useAuth from '../../hooks/index';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import logoHexlet from './logo_hexlet.jpeg'; // Импорт изображения
+import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import * as Yup from 'yup';
+import Header from '../common/header';
 
-const apiPath = '/api/v1';
-
-const routes = {
-  loginPath: () => [apiPath, 'login'].join('/'),
-  usersPath: () => [apiPath, 'data'].join('/'),
-};
 
 const validationSchema = Yup.object({
   //username: Yup.string().required('Это поле обязательно'),
@@ -40,18 +35,20 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
+
     validationSchema: validationSchema,
     validateOnBlur: false,
+    
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
         await validationSchema.validate(values, { abortEarly: false });
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
+        auth.logIn(values);
 
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
+
+        
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
@@ -69,9 +66,7 @@ const LoginPage = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-        <div className="container"><a className="navbar-brand" href="/">Hexlet Chat</a></div>
-      </nav>
+      <Header/>
       <div className="container-fluid h-100">
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-12 col-md-8 col-xxl-6">
