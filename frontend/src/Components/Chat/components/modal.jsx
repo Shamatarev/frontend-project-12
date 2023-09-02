@@ -1,24 +1,23 @@
 
 /* eslint-disable react/prop-types */
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { socket }  from "../../../contexts/ProvideAPI";
 import { useDispatch } from "react-redux";
 import { addChannel } from "../../../slices/channels";
-import { removeChannel } from "../../../slices/channels";
 import { updateChannelData } from "../../../slices/channels";
 import { useSelector } from 'react-redux';
 import { changeChannelId } from "../../../slices/channels"; // Импортируйте действие из вашего среза
-import { removeMessagesByChannelId } from '../../../slices/messages';
-
+import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
 
 export function ChannelModalAdd() {
     const [show, setShow] = useState(false);
     const [channelName,setChannelName] = useState('')
     const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
+    const { saveUserData } = useContext(AuthContext);
 
     const handleClose = () => {
         setShow(false);
@@ -41,8 +40,14 @@ export function ChannelModalAdd() {
         socket.on('newChannel', (newChannel) => {
           //console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
           dispatch(addChannel(newChannel));
-          console.log('newChannel.id', newChannel)
-          dispatch(changeChannelId(newChannel.id))
+          //console.log('newChannel.creator', newChannel)
+          console.log('newChannel.creator', newChannel.user)
+          console.log('saveUserData.username', saveUserData.username)
+          console.log(1231231313132, newChannel.user === saveUserData.username)
+          if (newChannel.user === saveUserData.username){
+            dispatch(changeChannelId(newChannel.id))
+          }
+          
         });
       }, [])
 
@@ -63,7 +68,8 @@ export function ChannelModalAdd() {
         }
 
         const newChannel = {
-          name: channelName, 
+          name: channelName,
+          user: saveUserData.username, 
         };
         socket.emit('newChannel', newChannel, (acknowledgement) => {
           console.log('Сообщение отправлено:    const [show, setShow] = useState(false);', acknowledgement);
@@ -236,23 +242,14 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
 
   export function ChannelModalDel({ show, handleClose, isInvalid, id}) {
 
-    const dispatch = useDispatch()
 
-
-      useEffect(() => {
-        socket.on('removeChannel', (id) => {
-          console.log('Сообщение с сервера:', id); // Выводим id  в консоль 
-          dispatch(removeChannel(id));
-          //console.log('newChannel.id', channelID)
-          dispatch(removeMessagesByChannelId(id));
-        });
-      }, [])
 
 
     const delChannel = () => {
       const channelID = {
         id, 
       };
+      console.log('channelID', channelID)
       // отправляю событие на сервер для удаления канала по id
       socket.emit('removeChannel', channelID, (acknowledgement) => {
         console.log('Канал удален:', acknowledgement);
