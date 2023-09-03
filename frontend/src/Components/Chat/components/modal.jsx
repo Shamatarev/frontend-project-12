@@ -12,13 +12,14 @@ import { updateChannelData } from "../../../slices/channels";
 import { useSelector } from 'react-redux';
 import { changeChannelId } from "../../../slices/channels"; // Импортируйте действие из вашего среза
 import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
+import { useTranslation } from 'react-i18next';
 
 export function ChannelModalAdd() {
     const [show, setShow] = useState(false);
     const [channelName,setChannelName] = useState('')
     const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
     const { saveUserData } = useContext(AuthContext);
-
+    const {t} = useTranslation()
     const handleClose = () => {
         setShow(false);
         setChannelName('');
@@ -99,7 +100,7 @@ export function ChannelModalAdd() {
         centered
         onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Добавить канал</Modal.Title>
+            <Modal.Title>{t('modals.addChannel')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -108,7 +109,7 @@ export function ChannelModalAdd() {
                 controlId="exampleForm.ControlTextarea1"
                 autoFocus
               >
-                <Form.Label>Название канала</Form.Label>
+                <Form.Label>{t('modals.channelName')}</Form.Label>
                 <Form.Control 
                 as="textarea" 
                 rows={1}         
@@ -120,16 +121,16 @@ export function ChannelModalAdd() {
                 isInvalid={isInvalid} // Применяем стили по условию
                 onKeyDown={handleKeyDown} // Добавляем обработчик события
             />
-            <div className="invalid-feedback">Должно быть уникальным</div> {/* Добавил блок div для сообщения */}
+            <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Отменить
+            {t('modals.cancelButton')}
             </Button>
             <Button variant="primary" onClick={sendChannel} disabled={isInvalid} >
-              Отправить
+            {t('modals.sendButton')}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -144,7 +145,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
   const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
   const [channelName,setChannelName] = useState('')
   const dispatch = useDispatch()
-
+  const {t} = useTranslation()
   const channels = useSelector((state) => state.channels);
 
     useEffect(() => {
@@ -177,7 +178,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
         id,
         name: channelName, 
       };
-
+      <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       socket.emit('renameChannel', newChannel, (acknowledgement) => {
         console.log('Сообщение отправлено:    const [show, setShow] = useState(false);', acknowledgement);
 
@@ -199,7 +200,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
       centered
       onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Добавить канал</Modal.Title>
+          <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -208,7 +209,6 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
               controlId="exampleForm.ControlTextarea1"
               autoFocus
             >
-              <Form.Label>Название канала</Form.Label>
               <Form.Control 
               as="textarea" 
               rows={1}         
@@ -220,16 +220,16 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
               isInvalid={isInvalid} // Применяем стили по условию
               onKeyDown={handleKeyDown} // Добавляем обработчик события
           />
-          <div className="invalid-feedback">Должно быть уникальным</div> {/* Добавил блок div для сообщения */}
+          <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Отменить
+          {t('modals.cancelButton')}
           </Button>
           <Button variant="primary" onClick={upChannel} disabled={isInvalid} >
-            Отправить
+          {t('modals.sendButton')}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -242,7 +242,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
 
   export function ChannelModalDel({ show, handleClose, isInvalid, id}) {
 
-
+    const {t} = useTranslation()
 
 
     const delChannel = () => {
@@ -267,14 +267,15 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
         centered
         onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Удалить канал</Modal.Title>
+            <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
             </Modal.Header>
               <Modal.Footer>
+              <p className="col-6">{t('modals.submitRemove')}</p>
                   <Button variant="secondary" onClick={handleClose}>
-                    Отменить
+                  {t('modals.cancelButton')}
                   </Button>
                   <Button variant="danger" onClick={delChannel} disabled={isInvalid}>
-                    Удалить
+                  {t('modals.removeButton')}
                   </Button>
               </Modal.Footer>
         </Modal>

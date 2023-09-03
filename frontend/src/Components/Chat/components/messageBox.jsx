@@ -11,7 +11,7 @@ import _ from 'lodash';
 import  AuthContext  from "../../../contexts/index"; // Подставьте правильный путь к контексту
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
-
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -21,6 +21,7 @@ const MessageForm = ({ channelId}) => {
   const dispatch = useDispatch()
   const uniqueId = _.uniqueId();
   const { saveUserData } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   const sendMessage = () => {
     if (message.trim() === '') {
@@ -41,13 +42,13 @@ const MessageForm = ({ channelId}) => {
   return (
     <InputGroup className="mb-3">
       <Form.Control
-        placeholder="Введите сообщение..."
+        placeholder={t('messageFormPlaceholder')}
         aria-label="Recipient's username"
         aria-describedby="basic-addon2"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <Button variant="outline-secondary" id="button-addon2" onClick={sendMessage}>
+      <Button variant="outline-seondary" id="button-addon2" onClick={sendMessage}>
         <BsSend />
       </Button>
     </InputGroup>
@@ -56,17 +57,19 @@ const MessageForm = ({ channelId}) => {
 
 
 const getMessageCountLabel = (count) => {
+  const { t } = useTranslation();
+
   switch (count) {
     case 0:
-      return "нет сообщений";
+      return t('messages_none');
     case 1:
-      return `${count} сообщение`;
+      return t('messages_one', { count });
     case 2:
     case 3:
     case 4:
-      return `${count} сообщения`;
+      return t('messages_few', { count });
     default:
-      return `${count} сообщений`;
+      return t('messages_many', { count });
   }
 };
 

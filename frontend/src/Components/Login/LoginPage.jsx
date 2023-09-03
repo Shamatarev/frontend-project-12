@@ -10,22 +10,28 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Boot
 import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import * as Yup from 'yup';
 import Header from '../common/header';
+import { useTranslation } from 'react-i18next';
 
 
-const validationSchema = Yup.object({
-  //username: Yup.string().required('Это поле обязательно'),
-  password: Yup.string()
-    .required('Это поле обязательно')
-    //.min(4, 'Пароль должен быть не менее 4 символов'),
-});
+
+
+
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const location = useLocation();
   const navigate = useNavigate();
 
+  const validationSchema = Yup.object({
+    //username: Yup.string().required('Это поле обязательно'),
+    password: Yup.string()
+      .required(t('required'))
+      //.min(4, 'Пароль должен быть не менее 4 символов'),
+  });
+  
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -73,13 +79,13 @@ const LoginPage = () => {
             <div className="card shadow-sm">
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <img src={logoHexlet} className="rounded-circle" alt="Войти" />
+                  <img src={logoHexlet} className="rounded-circle" alt={t('enter')} />
                 </div>
                 <Form
                   onSubmit={formik.handleSubmit}
                   className="col-12 col-md-6 mt-3 mt-mb-0"
                 >
-                  <h1 className="text-center mb-4">Войти</h1>
+                  <h1 className="text-center mb-4">{t('enter')}</h1>
                   <fieldset disabled={formik.isSubmitting}>
                     <Form.Group className="form-floating mb-3">
                       <Form.Control
@@ -89,12 +95,12 @@ const LoginPage = () => {
                         ref={inputRef}
                         required
                         className="form-control"
-                        placeholder="Ваш ник"
+                        placeholder={t('yourNickname')}
                         name="username"
                         id="username"
                         autoComplete="username"
                       />
-                      <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                      <Form.Label htmlFor="username">{t('yourNickname')}</Form.Label>
                     </Form.Group>
                     <Form.Group className="form-floating mb-4">
                       <Form.Control
@@ -104,15 +110,15 @@ const LoginPage = () => {
                         isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
                         required
                         className="form-control"
-                        placeholder="password"
+                        placeholder={t('password')}
                         name="password"
                         id="password"
                         autoComplete="password"
                       />
-                      <Form.Label htmlFor="password">Пароль</Form.Label>
+                      <Form.Label htmlFor="password">{t('password')}</Form.Label>
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.password}
-                        {authFailed && ' Неверные имя пользователя или пароль'}
+                        {authFailed && t('invalidData')}
                       </Form.Control.Feedback>
                     </Form.Group>
                     <Button
@@ -120,14 +126,14 @@ const LoginPage = () => {
                       variant="outline-primary"
                       className="w-100 mb-3 btn btn-outline-primary"
                     >
-                      Войти
+                      {t('enter')}
                     </Button>
                   </fieldset>
                 </Form>
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>Нет аккаунта?</span> <a href="/signup">Регистрация</a>
+                  <span>{t('noAccount')}</span> <a href="/signup">{t('signUp')}</a>
                 </div>
               </div>
             </div>

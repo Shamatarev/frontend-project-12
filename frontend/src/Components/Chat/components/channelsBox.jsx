@@ -15,7 +15,7 @@ import { changeChannelId } from '../../../slices/channels';
 import { ChannelModalAdd }from './modal'
 import { ChannelModalDel } from './modal';
 import { ChannelModalUpdate } from './modal';
-
+import { useTranslation } from 'react-i18next';
 
 
 const SimpleButton = ( { channel, isActive, name = channel.name,  onClick }  ) =>
@@ -33,6 +33,8 @@ const SimpleButton = ( { channel, isActive, name = channel.name,  onClick }  ) =
 
 
 const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, onClick }) => {
+  const { t } = useTranslation();
+
   const classNameMainButton = cn('w-100 rounded-0 text-start btn', {
     'btn-secondary': isActive,
   });
@@ -63,11 +65,11 @@ const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, o
       </Button>
 
       <Dropdown.Toggle split className={classNameDropdown}>
-        <span className="visually-hidden">{'Управление каналом'}</span>
+        <span className="visually-hidden">{t('channelControl')}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleButtonClickRemoveChannel}>{'Удалить'}</Dropdown.Item>
-        <Dropdown.Item onClick={handleButtonUpdateClickChannel}>{'Переименовать'}</Dropdown.Item>
+        <Dropdown.Item onClick={handleButtonClickRemoveChannel}>{t('remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={handleButtonUpdateClickChannel}>{t('rename')}</Dropdown.Item>
       </Dropdown.Menu>
 
       {/* Передаем состояние modalAction */}
@@ -82,6 +84,7 @@ const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, o
 
 
 const ChannelsBox = () => {
+  const { t } = useTranslation();
   const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const channels = useSelector(selectors.selectAll);
   const dispatch = useDispatch();
@@ -97,7 +100,7 @@ const ChannelsBox = () => {
       <Formik>
         <Form className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <Form className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                  <b>Каналы</b>
+                  <b>{t('channels')}</b>
                   <ChannelModalAdd/>
               </Form>   
 

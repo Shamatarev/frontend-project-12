@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-// @ts-nocheck
 
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+// @ts-nocheck
+import React, { useEffect} from 'react';
 // import React from 'react';
 import Header from '../common/header';
 import ChannelsBox from './components/channelsBox';
