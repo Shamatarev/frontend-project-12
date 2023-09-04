@@ -21,13 +21,16 @@ const getAuthHeader = () => {
   };
   
 
- const fetchData = createAsyncThunk(
-    'fetchData',
-    async () => {
-        const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
-        console.log('MYdata', data)
-      return data;
-    },
-  );
+const fetchData = createAsyncThunk('fetchData', async () => {
+  try {
+    const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+    console.log('MYdata', data);
+    return data;
+  } catch (error) {
+    // Здесь можно обработать ошибку или выбросить ее дальше
+    console.error('Ошибка при выполнении fetchData:', error);
+    throw error; // Выбрасываем ошибку дальше, чтобы она была видна вызывающему коду
+  }
+});
 
   export default fetchData;

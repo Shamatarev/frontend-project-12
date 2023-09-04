@@ -12,7 +12,9 @@ import  AuthContext  from "../../../contexts/index"; // Подставьте п�
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
 import { useTranslation } from 'react-i18next';
-
+import LeoProfanity  from 'leo-profanity';
+// import 'leo-profanity/lang/ru'; // Импортируйте файл для русского языка
+// import 'leo-profanity/lang/en'; // Импортируйте файл для английского языка
 
 
 // eslint-disable-next-line react/prop-types
@@ -24,15 +26,19 @@ const MessageForm = ({ channelId}) => {
   const { t } = useTranslation();
 
   const sendMessage = () => {
+    
     if (message.trim() === '') {
       return;
     }
+    const profanityFilter = LeoProfanity;
+    profanityFilter.loadDictionary('ru');
+    const censoredMessage = profanityFilter.clean(message);
     const newMessage = {
       id: uniqueId,
       channelId,
       user: saveUserData.username,
       timestamp: new Date().toISOString(),
-      message,
+      message: censoredMessage,
     };
     socket.emit('newMessage', newMessage, (acknowledgement) => {
       console.log('Сообщение отправлено:', acknowledgement);
@@ -107,7 +113,7 @@ useEffect(() => {
     //console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
     dispatch(addPost(newMessage));
   });
-}, [])
+}, []);
 
 
     return (  <div className="col p-0 h-100">

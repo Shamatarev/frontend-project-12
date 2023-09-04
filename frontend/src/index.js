@@ -10,6 +10,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 const userLanguage = localStorage.getItem('userLanguage');
 const DEFAULT_LANGUAGE = userLanguage ?? 'ru';
 import resources from './locales/index.js';
+import { ToastContainer } from 'react-toastify'; // Импортируйте ToastContainer
 
 const Init = async () => {
 
@@ -26,6 +27,7 @@ const Init = async () => {
           return (
             <I18nextProvider i18n={i18n}>
               <Provider store={store} socket={socket}>
+                <ToastContainer />
                 <App />
               </Provider>
             </I18nextProvider>

@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import { changeChannelId } from "../../../slices/channels"; // Импортируйте действие из вашего среза
 import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function ChannelModalAdd() {
     const [show, setShow] = useState(false);
@@ -20,6 +22,8 @@ export function ChannelModalAdd() {
     const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
     const { saveUserData } = useContext(AuthContext);
     const {t} = useTranslation()
+    
+    
     const handleClose = () => {
         setShow(false);
         setChannelName('');
@@ -54,6 +58,7 @@ export function ChannelModalAdd() {
 
       
       const sendChannel = () => {
+        const notify = () => toast(t('toasts.createChannel'));
         if (channelName.trim() === '') {
           return;
         }
@@ -78,6 +83,7 @@ export function ChannelModalAdd() {
         });
         setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
         handleClose()
+        notify()
       };
 
         // Добавляем обработчик события onKeyDown
@@ -85,6 +91,7 @@ export function ChannelModalAdd() {
         if (e.key === 'Enter') {
           e.preventDefault();
           sendChannel(); // Вызываем функцию отправки данных
+
         }
       };
 
@@ -101,7 +108,7 @@ export function ChannelModalAdd() {
         onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.addChannel')}</Modal.Title>
-          </Modal.Header>
+             </Modal.Header>
           <Modal.Body>
             <Form>
               <Form.Group
@@ -147,6 +154,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
   const dispatch = useDispatch()
   const {t} = useTranslation()
   const channels = useSelector((state) => state.channels);
+  const notify = () => toast(t('toasts.renameChannel'));
 
     useEffect(() => {
       socket.on('renameChannel', (updChannel) => {
@@ -184,7 +192,8 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
 
       });
       setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
-      handleClose()
+      handleClose();
+      notify();
     };
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
@@ -243,7 +252,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
   export function ChannelModalDel({ show, handleClose, isInvalid, id}) {
 
     const {t} = useTranslation()
-
+    const notify = () => toast(t('toasts.removeChannel'));
 
     const delChannel = () => {
       const channelID = {
@@ -255,6 +264,7 @@ export function ChannelModalUpdate({ show, handleClose, id}) {
         console.log('Канал удален:', acknowledgement);
       });
        handleClose(); // Закройте модальное окно после удаления
+       notify();
     };
 
 

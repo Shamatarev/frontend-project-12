@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 
@@ -21,7 +22,9 @@ import { socket }  from "../contexts/ProvideAPI";
 import { removeChannel } from "../slices/channels.js";
 import { removeMessagesByChannelId } from '../slices/messages';
 import { useDispatch } from "react-redux";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 const apiPath = '/api/v1';
 
 const routes = {
@@ -31,7 +34,7 @@ const routes = {
 
 const AuthProvider = ({ children }) => {
   const saveUserData = JSON.parse(localStorage.getItem('userId'))
-
+  const {t} = useTranslation()
    console.log('saveUserData',saveUserData)
    console.log(Boolean(saveUserData))
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
@@ -41,8 +44,31 @@ const AuthProvider = ({ children }) => {
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState(null); // Добавляем состояние для текущего пользователя
 
-  
+    const handleConnectionError = () => {
+    // Выводим сообщение об ошибке соединения
+    toast.error(t('noConnection'));
+  };
+
+  // const handleConnectionTokenError = () => {
+  //   // Выводим сообщение об ошибке соединения
+  //   toast.error(t('fetchDataError'));
+  // };
   const logIn = async (values) => {
+
+    axios.get(routes)
+      .then(response => {
+        if (response.status === 200) {
+          console.log('Сервер доступен, есть интернет.');
+        } else {
+          console.log('Проблемы с сервером или интернетом.');
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка при запросе:', error);
+        handleConnectionError()
+      });
+
+  
     try {
       const res = await axios.post(routes.loginPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
@@ -56,6 +82,14 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+
+
+  // socket.on('error', (error) => {
+  //   console.error('Ошибка сокса:', error);
+  //   handleConnectionTokenError(); // Вызываем функцию вывода сообщения об ошибке
+  // });
+  
+  
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
