@@ -10,11 +10,6 @@ import MessagesBox from './components/messageBox';
 import fetchData from '../../slices/thunks'
 import { useDispatch } from 'react-redux';
 
-
-
-
-
-
 const MainPage = () => {
  const dispatch = useDispatch()
 
