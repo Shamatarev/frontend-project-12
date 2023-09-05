@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState, useContext } from "react"
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { BsSend } from "react-icons/bs";
 import { socket }  from "../../../contexts/ProvideAPI";
-import { addPost, addPosts } from "../../../slices/messages";
+import { addPost } from "../../../slices/messages";
 import { useDispatch } from "react-redux";
 import { selectorsMessage } from '../../../slices/messages';
 import { useSelector } from 'react-redux';
@@ -13,14 +13,13 @@ import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity  from 'leo-profanity';
-// import 'leo-profanity/lang/ru'; // Импортируйте файл для русского языка
-// import 'leo-profanity/lang/en'; // Импортируйте файл для английского языка
+
 
 
 // eslint-disable-next-line react/prop-types
 const MessageForm = ({ channelId}) => {
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch()
+
   const uniqueId = _.uniqueId();
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -110,7 +109,7 @@ const sendMessage = (e) => {
 
 useEffect(() => {
   socket.on('newMessage', (newMessage) => {
-    //console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
+    console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
     dispatch(addPost(newMessage));
   });
 }, []);

@@ -12,8 +12,9 @@ const DEFAULT_LANGUAGE = userLanguage ?? 'ru';
 import resources from './locales/index.js';
 import { ToastContainer } from 'react-toastify'; // Импортируйте ToastContainer
 
-const Init = async () => {
 
+const Init = async () => {
+        
 
         const i18n = i18next.createInstance();
         await i18n
