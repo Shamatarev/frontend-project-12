@@ -11,7 +11,7 @@ const userLanguage = localStorage.getItem('userLanguage');
 const DEFAULT_LANGUAGE = userLanguage ?? 'ru';
 import resources from './locales/index.js';
 import { ToastContainer } from 'react-toastify'; // Импортируйте ToastContainer
-import { ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
+import {  Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
 
 const Init = async () => {
         
@@ -20,11 +20,7 @@ const Init = async () => {
     environment: 'testenv',
   };
 
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
-  
+
         const i18n = i18next.createInstance();
         await i18n
           .use(initReactI18next)
@@ -35,15 +31,16 @@ const Init = async () => {
           });
 
           return (
+            <RollbarProvider config={rollbarConfig}>
             <I18nextProvider i18n={i18n}>
-              <Provider store={store} socket={socket} config={rollbarConfig}>
+              <Provider store={store} socket={socket} >
                 <ErrorBoundary>
-                  <TestError />
                   <ToastContainer />
                   <App />
                 </ErrorBoundary>
               </Provider>
             </I18nextProvider>
+            </RollbarProvider>
       );
     }
 
