@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 
-//const URL = "http://localhost:3000";
+const URL = "/";
 
-export const socket = io();
+export const socket = io(URL, { autoConnect: true });
 
 
 socket.onAny((event, ...args) => {
