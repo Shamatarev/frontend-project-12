@@ -105,36 +105,34 @@ export const ChannelModalAdd = () => {
           </Modal.Header>
             <Form>
                 <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-                autoFocus
-              >
-                <Modal.Footer>
-                <Form.Control 
-                id="name"
-                name="name"
-                type="text"
-                placeholder={t('modals.channelName')}
-                className="mb-2"
-                value={channelName}
-                onChange={(e) => {
-                    setChannelName(e.target.value);
-                    setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
-                }}
-                isInvalid={isInvalid} // Применяем стили по условию
-                onKeyDown={handleKeyDown} // Добавляем обработчик события
-                />
-                <Form.Label visuallyHidden>{t('modals.channelName')}</Form.Label>
-                <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
-
-
-                <Button variant="secondary" onClick={handleClose}>
-                {t('modals.cancelButton')}
-                </Button>
-                <Button variant="primary" onClick={sendChannel} disabled={isInvalid} >
-                {t('modals.sendButton')}
-                </Button>
-                </Modal.Footer>
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                  autoFocus
+                >
+                  <Modal.Footer>
+                    <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
+                    <Form.Control 
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder={t('modals.channelName')}
+                      className="mb-2"
+                      value={channelName}
+                      onChange={(e) => {
+                          setChannelName(e.target.value);
+                          setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
+                      }}
+                      isInvalid={isInvalid} // Применяем стили по условию
+                      onKeyDown={handleKeyDown} // Добавляем обработчик события
+                    />
+                    <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
+                    <Button variant="secondary" onClick={handleClose}>
+                    {t('modals.cancelButton')}
+                    </Button>
+                    <Button variant="primary" onClick={sendChannel} disabled={isInvalid} >
+                    {t('modals.sendButton')}
+                    </Button>
+                  </Modal.Footer>
               </Form.Group>
             </Form>
           </Modal.Body>
