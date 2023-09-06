@@ -20,7 +20,8 @@ const MessageForm = ({ channelId }) => {
       return;
     }
       const profanityFilter = LeoProfanity;
-      profanityFilter.loadDictionary("ru");
+      profanityFilter.loadDictionary(["en", "ru"]);
+      
       const censoredMessage = profanityFilter.clean(message);
       const newMessage = {
         id: uniqueId,
@@ -49,10 +50,10 @@ const MessageForm = ({ channelId }) => {
       }
     };
 
-    window.addEventListener("keypress", handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener("keypress", handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
@@ -60,7 +61,7 @@ const MessageForm = ({ channelId }) => {
     <InputGroup className="mb-3">
       <Form.Control
         placeholder={t("messageFormPlaceholder")}
-        aria-label="Recipient's username"
+        aria-label='Новое сообщение'
         aria-describedby="basic-addon2"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
