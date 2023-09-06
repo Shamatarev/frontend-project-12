@@ -112,7 +112,7 @@ const Signup = () => {
                           />
                           <Form.Label htmlFor="username">{t('username')}</Form.Label>
                           <Form.Control.Feedback type="invalid">
-                            {formik.errors.password}
+                            {formik.errors.username}
                             {authFailed && t('signUpPage.existingUser')}
                           </Form.Control.Feedback>
                         </Form.Group>
