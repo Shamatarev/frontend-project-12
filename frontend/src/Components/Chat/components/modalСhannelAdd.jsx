@@ -98,17 +98,18 @@ export const ChannelModalAdd = () => {
         show={show}
         centered
         onHide={handleClose}>
+
+          <Modal.Body>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.addChannel')}</Modal.Title>
-             </Modal.Header>
-          <Modal.Body>
+          </Modal.Header>
             <Form>
-              <Form.Group
+                <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlTextarea1"
                 autoFocus
               >
-                <Form.Label>{t('modals.channelName')}</Form.Label>
+                <Modal.Footer>
                 <Form.Control 
                 as="textarea" 
                 rows={1}         
@@ -119,19 +120,21 @@ export const ChannelModalAdd = () => {
                 }}
                 isInvalid={isInvalid} // Применяем стили по условию
                 onKeyDown={handleKeyDown} // Добавляем обработчик события
-            />
-            <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
+                />
+                <Form.Label visuallyHidden>{t('modals.channelName')}</Form.Label>
+                <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
+
+
+                <Button variant="secondary" onClick={handleClose}>
+                {t('modals.cancelButton')}
+                </Button>
+                <Button variant="primary" onClick={sendChannel} disabled={isInvalid} >
+                {t('modals.sendButton')}
+                </Button>
+                </Modal.Footer>
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-            {t('modals.cancelButton')}
-            </Button>
-            <Button variant="primary" onClick={sendChannel} disabled={isInvalid} >
-            {t('modals.sendButton')}
-            </Button>
-          </Modal.Footer>
         </Modal>
       </>
     );
