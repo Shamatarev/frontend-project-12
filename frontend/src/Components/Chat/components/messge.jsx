@@ -11,7 +11,6 @@ import LeoProfanity from "leo-profanity";
 
 const MessageForm = ({ channelId }) => {
   const [message, setMessage] = useState("");
-  const [ctrlPressed, setCtrlPressed] = useState(false);
   const uniqueId = _.uniqueId();
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -42,35 +41,20 @@ const MessageForm = ({ channelId }) => {
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Control") {
-        setCtrlPressed(true);
-      }
-    };
-
-    const handleKeyUp = (e) => {
-      if (e.key === "Control") {
-        setCtrlPressed(false);
-      }
-    };
-
+ 
     const handleKeyPress = (e) => {
-      if (e.key === "Enter" && ctrlPressed) {
+      if (e.key === "Enter") {
         e.preventDefault(); // Предотвращаем перезагрузку страницы
         sendMessage();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
     window.addEventListener("keypress", handleKeyPress);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("keypress", handleKeyPress);
     };
-  }, [ctrlPressed]);
+  }, []);
 
   return (
     <InputGroup className="mb-3">
