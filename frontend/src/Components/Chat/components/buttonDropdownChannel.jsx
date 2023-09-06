@@ -39,6 +39,7 @@ const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, o
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
+      <span className="visually-hidden">Управление каналом</span>
       <Button type="button" className={classNameMainButton} onClick={() => onClick(channel.id)}>
         <ChannelName name={name} />
       </Button>
