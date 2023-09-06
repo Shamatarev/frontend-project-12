@@ -5,7 +5,7 @@ const getMessageCountLabel = (count) => {
   
     switch (count) {
       case 0:
-        return t('messages_none');
+        return t('messages_many', { count });
       case 1:
         return t('messages_one', { count });
       case 2:

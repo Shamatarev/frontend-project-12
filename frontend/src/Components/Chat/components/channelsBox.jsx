@@ -1,12 +1,10 @@
-
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Formik} from 'formik';
 import { Form } from 'react-bootstrap';
 import { selectors } from '../../../slices/channels';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import  changeChannelId  from '../../../slices/channels';
+import { changeChannelId }  from '../../../slices/channels';
 import { ChannelModalAdd }from './modalСhannelAdd'
 import { useTranslation } from 'react-i18next';
 import SimpleButton from './buttonSimpleChannel';
