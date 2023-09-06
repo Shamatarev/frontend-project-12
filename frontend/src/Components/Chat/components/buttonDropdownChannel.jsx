@@ -39,12 +39,12 @@ const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, o
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
-      <span className="visually-hidden">Управление каналом</span>
+ 
       <Button type="button" className={classNameMainButton} onClick={() => onClick(channel.id)}>
         <ChannelName name={name} />
       </Button>
 
-      <Dropdown.Toggle split className={classNameDropdown}>
+      <Dropdown.Toggle split className={classNameDropdown} placeholder={t('channelControl')}>
         <span className="visually-hidden">{t('channelControl')}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
