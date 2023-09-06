@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,10 +10,20 @@ import * as Yup from 'yup';
 import Header from '../common/header';
 import { useTranslation } from 'react-i18next';
 
+
+const apiPath = '/api/v1';
+
+const routes = {
+  loginPath: () => [apiPath, 'login'].join('/'),
+  usersPath: () => [apiPath, 'data'].join('/'),
+};
+
+
 const LoginPage = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
+  const [loginError, setLoginError] = useState(null);
   const inputRef = useRef();
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,6 +35,10 @@ const LoginPage = () => {
       //.min(4, 'Пароль должен быть не менее 4 символов'),
   });
   
+
+
+
+  
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -34,20 +49,29 @@ const LoginPage = () => {
       password: '',
     },
 
-    validationSchema: validationSchema,
-    validateOnBlur: false,
+    // validationSchema: validationSchema,
+    // validateOnBlur: false,
     
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
         await validationSchema.validate(values, { abortEarly: false });
+        const res = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn(values);
+        //console.log(`auth.logIn(values)`,auth.logIn(values));
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
-
+        console.log('error!!!!!',123)
       } catch (err) {
+        console.log('Error status code:', err.response.status);
+        console.log('err.isAxiosError', err.isAxiosError)
+        console.log('err.response.status', err.response.status)
+        console.log('error!!!!!',err)
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
+          setLoginError(err); // Устанавливаем ошибку в loginError
+          console.log('loginError111111111',loginError)
         }
         if (err.name === 'ValidationError') {
           const formErrors = err.inner.reduce((acc, current) => {
@@ -109,6 +133,7 @@ const LoginPage = () => {
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.password}
                         {authFailed && t('invalidData')}
+
                       </Form.Control.Feedback>
                     </Form.Group>
                     <Button
