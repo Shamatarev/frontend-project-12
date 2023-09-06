@@ -10,7 +10,7 @@ const ruLocales = {
       },
       modals: {
         duplicate: 'Канал с таким именем уже существует',
-        channelName: 'Название канала',
+        channelName: 'Имя канала',
         addChannel: 'Добавить канал',
         cancelButton: 'Отменить',
         sendButton: 'Отправить',
