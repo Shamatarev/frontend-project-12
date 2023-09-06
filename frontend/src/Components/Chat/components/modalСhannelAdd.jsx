@@ -94,14 +94,14 @@ export const ChannelModalAdd = () => {
           +
         </Button>
   
-        <Modal 
+      <Modal 
         show={show}
         centered
         onHide={handleClose}>
 
-          <Modal.Body>
-          <Modal.Header closeButton>
-            <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+      <Modal.Body>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('modals.addChannel')}</Modal.Title>
           </Modal.Header>
             <Form>
                 <Form.Group
@@ -111,8 +111,11 @@ export const ChannelModalAdd = () => {
               >
                 <Modal.Footer>
                 <Form.Control 
-                as="textarea" 
-                rows={1}         
+                id="name"
+                name="name"
+                type="text"
+                placeholder={t('modals.channelName')}
+                className="mb-2"
                 value={channelName}
                 onChange={(e) => {
                     setChannelName(e.target.value);
