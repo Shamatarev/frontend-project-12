@@ -49,7 +49,7 @@ useEffect(() => {
           {messages.filter(({channelId}) => channelId === currentChannelId).map(({user, message}, uniqueId) => {
             return(
             <div key = {uniqueId} className="text-break mb-2">
-             <b>{user}</b>: {message}
+             <b>{user}{': '}</b>: {message}
             </div>
             )
             })}

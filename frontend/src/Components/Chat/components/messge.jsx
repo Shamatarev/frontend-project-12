@@ -11,11 +11,11 @@ import LeoProfanity from "leo-profanity";
 
 const MessageForm = ({ channelId }) => {
   const [message, setMessage] = useState("");
-  const uniqueId = _.uniqueId();
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
 
   const sendMessage = () => {
+    const uniqueId = _.uniqueId();
     if (message.trim() === "") {
       return;
     }
@@ -46,7 +46,9 @@ const MessageForm = ({ channelId }) => {
     const handleKeyPress = (e) => {
       if (e.key === "Enter") {
         e.preventDefault(); // Предотвращаем перезагрузку страницы
-        sendMessage();
+        if (message.trim() !== "") {
+          sendMessage();
+        }
       }
     };
 
@@ -55,7 +57,7 @@ const MessageForm = ({ channelId }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [message]);
 
   return (
     <InputGroup className="mb-3">
