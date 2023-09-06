@@ -30,7 +30,7 @@ const ruLocales = {
       username: 'Имя пользователя',
       password: 'Пароль',
       exit: 'Выйти',
-      chatLogo: 'Хекслет Чат',
+      chatLogo: 'Hexlet Chat',
       pageNotFound: 'Страница не найдена',
       youCanGo: 'Но вы можете перейти',
       homePage: 'на главную страницу',

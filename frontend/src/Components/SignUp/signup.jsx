@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
-//import { useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import avatar from '../../assets/avatar.jpg'; // Импорт изображения
 import * as Yup from 'yup';
@@ -9,10 +8,6 @@ import Header from '../common/header';
 import axios from 'axios';
 import AuthContext from '../../contexts/index'; 
 import { useTranslation } from 'react-i18next';
-
-
-
-
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -52,7 +47,6 @@ const Signup = () => {
       password: '',
       confirmPassword: ''
     },
-
     validationSchema: validationSchema,
     validateOnBlur: false,
     
@@ -62,7 +56,6 @@ const Signup = () => {
       try {
         await validationSchema.validate(values, { abortEarly: false });
         const response = await registerUser(values); // Отправить данные на сервер
-        
         localStorage.setItem('token', response.token);
         console.log('Регистрация прошла успешно:', response);
 

@@ -1,6 +1,3 @@
-// @ts-nocheck
-
-//import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
@@ -11,11 +8,6 @@ import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изоб
 import * as Yup from 'yup';
 import Header from '../common/header';
 import { useTranslation } from 'react-i18next';
-
-
-
-
-
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -50,11 +42,9 @@ const LoginPage = () => {
       try {
         await validationSchema.validate(values, { abortEarly: false });
         auth.logIn(values);
-
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
 
-        
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
