@@ -87,8 +87,10 @@ const ChannelModalUpdate = ({ show, handleClose, id}) =>  {
               autoFocus
             >
               <Form.Control 
-              as="textarea" 
-              rows={1}         
+              id="name"
+              name="name"
+              type="text"
+              placeholder={t('modals.channelName')}        
               value={channelName}
               onChange={(e) => {
                   setChannelName(e.target.value);
@@ -101,6 +103,7 @@ const ChannelModalUpdate = ({ show, handleClose, id}) =>  {
             </Form.Group>
           </Form>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
           {t('modals.cancelButton')}
