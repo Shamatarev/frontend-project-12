@@ -86,6 +86,8 @@ const ChannelModalUpdate = ({ show, handleClose, id}) =>  {
               controlId="exampleForm.ControlTextarea1"
               autoFocus
             >
+              <Modal.Footer>
+              <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
               <Form.Control 
               id="name"
               name="name"
@@ -100,18 +102,17 @@ const ChannelModalUpdate = ({ show, handleClose, id}) =>  {
               onKeyDown={handleKeyDown} // Добавляем обработчик события
           />
           <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-
-        <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
           {t('modals.cancelButton')}
           </Button>
           <Button variant="primary" onClick={upChannel} disabled={isInvalid} >
           {t('modals.sendButton')}
           </Button>
-        </Modal.Footer>
+          </Modal.Footer>
+          </Form.Group>
+          </Form>
+        </Modal.Body>
+        
       </Modal>
     </>
   );
