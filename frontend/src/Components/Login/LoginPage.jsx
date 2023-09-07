@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable import/order */
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -10,14 +14,12 @@ import * as Yup from 'yup';
 import Header from '../common/header';
 import { useTranslation } from 'react-i18next';
 
-
 const apiPath = '/api/v1';
 
 const routes = {
   loginPath: () => [apiPath, 'login'].join('/'),
   usersPath: () => [apiPath, 'data'].join('/'),
 };
-
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -29,16 +31,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
-    //username: Yup.string().required('Это поле обязательно'),
+    // username: Yup.string().required('Это поле обязательно'),
     password: Yup.string()
-      .required(t('required'))
-      //.min(4, 'Пароль должен быть не менее 4 символов'),
+      .required(t('required')),
+    // .min(4, 'Пароль должен быть не менее 4 символов'),
   });
-  
 
-
-
-  
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -51,7 +49,7 @@ const LoginPage = () => {
 
     // validationSchema: validationSchema,
     // validateOnBlur: false,
-    
+
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
@@ -59,19 +57,19 @@ const LoginPage = () => {
         const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn(values);
-        //console.log(`auth.logIn(values)`,auth.logIn(values));
+        // console.log(`auth.logIn(values)`,auth.logIn(values));
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
-        console.log('error!!!!!',123)
+        console.log('error!!!!!', 123);
       } catch (err) {
         console.log('Error status code:', err.response.status);
-        console.log('err.isAxiosError', err.isAxiosError)
-        console.log('err.response.status', err.response.status)
-        console.log('error!!!!!',err)
+        console.log('err.isAxiosError', err.isAxiosError);
+        console.log('err.response.status', err.response.status);
+        console.log('error!!!!!', err);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           setLoginError(err); // Устанавливаем ошибку в loginError
-          console.log('loginError111111111',loginError)
+          console.log('loginError111111111', loginError);
         }
         if (err.name === 'ValidationError') {
           const formErrors = err.inner.reduce((acc, current) => {
@@ -86,7 +84,7 @@ const LoginPage = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Header/>
+      <Header />
       <div className="container-fluid h-100">
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-12 col-md-8 col-xxl-6">
@@ -148,7 +146,9 @@ const LoginPage = () => {
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>{t('noAccount')}</span> <a href="/signup">{t('signUp')}</a>
+                  <span>{t('noAccount')}</span>
+                  {' '}
+                  <a href="/signup">{t('signUp')}</a>
                 </div>
               </div>
             </div>

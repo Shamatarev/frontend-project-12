@@ -1,17 +1,19 @@
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable max-len */
+/* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AuthContext from '../contexts/index.jsx';
+import AuthContext from './index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import { socket }  from "../contexts/ProvideAPI";
-import { removeChannel } from "../slices/channels.js";
+import { socket } from './ProvideAPI';
+import { removeChannel } from '../slices/channels.js';
 import { removeMessagesByChannelId } from '../slices/messages';
-import { useDispatch } from "react-redux";
-//import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-//import { useTranslation } from 'react-i18next';
-
 
 const apiPath = '/api/v1';
 
@@ -21,8 +23,8 @@ const routes = {
 };
 
 const AuthProvider = ({ children }) => {
-  const saveUserData = JSON.parse(localStorage.getItem('userId'))
-  //const {t} = useTranslation()
+  const saveUserData = JSON.parse(localStorage.getItem('userId'));
+  // const {t} = useTranslation()
   //  console.log('saveUserData',saveUserData)
   //  console.log(Boolean(saveUserData))
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
@@ -31,17 +33,16 @@ const AuthProvider = ({ children }) => {
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState(null); // Добавляем состояние для текущего пользователя
   const [authError, setAuthError] = useState(null);
-//     const handleConnectionError = () => {
-//     // Выводим сообщение об ошибке соединения
-//     toast.error(t('noConnection'));
-//   };
+  //     const handleConnectionError = () => {
+  //     // Выводим сообщение об ошибке соединения
+  //     toast.error(t('noConnection'));
+  //   };
 
   // const handleConnectionTokenError = () => {
   //   // Выводим сообщение об ошибке соединения
   //   toast.error(t('fetchDataError'));
   // };
   const logIn = async (values) => {
-
     // axios.get(routes)
     //   .then(response => {
     //     if (response.status === 200) {
@@ -55,7 +56,6 @@ const AuthProvider = ({ children }) => {
     //     handleConnectionError()
     //   });
 
-  
     try {
       const res = await axios.post(routes.loginPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
@@ -70,13 +70,11 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
     setAuthSuccess(false); // Сбрасываем флаг успешной авторизации
     setAuthCompleted(true);
-    
   };
 
   useEffect(() => {
@@ -91,26 +89,25 @@ const AuthProvider = ({ children }) => {
     }
   }, [authCompleted, loggedIn, authSuccess]);
 
-  
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.on('removeChannel', (id) => {
-      console.log('Сообщение с сервера:', id); // Выводим id  в консоль 
+      console.log('Сообщение с сервера:', id); // Выводим id  в консоль
       dispatch(removeChannel(id));
-      //console.log('newChannel.id', channelID)
+      // console.log('newChannel.id', channelID)
       dispatch(removeMessagesByChannelId(id));
     });
-  }, [])
-
+  }, [dispatch]);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut, saveUserData}}>
+    <AuthContext.Provider value={{
+      loggedIn, logIn, logOut, saveUserData,
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-
-export default AuthProvider
+export default AuthProvider;
