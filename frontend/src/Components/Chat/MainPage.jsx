@@ -1,29 +1,28 @@
-
+/* eslint-disable functional/no-expression-statement */
 // @ts-nocheck
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 // import React from 'react';
+import { useDispatch } from 'react-redux';
 import Header from '../common/header';
 import ChannelsBox from './components/channelsBox';
 import MessagesBox from './components/messageBox';
 // import useAuth from '../../hooks';
 // import { Button } from 'react-bootstrap';
-import fetchData from '../../slices/thunks'
-import { useDispatch } from 'react-redux';
+import fetchData from '../../slices/thunks';
 
 const MainPage = () => {
- const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchData())
-  }, []);
+    dispatch(fetchData());
+  }, [dispatch]);
 
- 
   return (
     <div className="d-flex flex-column h-100">
-    <Header/>
-      <div className ="container h-100 my-4 overflow-hidden rounded shadow"> 
+      <Header />
+      <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
-          <ChannelsBox/>
+          <ChannelsBox />
           <MessagesBox />
         </div>
       </div>
