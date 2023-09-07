@@ -22,16 +22,12 @@ const messagesBox = () => {
 
   const sendMessage = (e) => {
     e.preventDefault(); // Предотвращаем перезагрузку страницы
-    console.log('sending', message);
-    // socket.connect
     socket.send(message);
-    console.log('socket', socket);
     setMessage('');
   };
 
   useEffect(() => {
     socket.on('newMessage', (newMessage) => {
-      console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
       dispatch(addPost(newMessage));
     });
   }, [dispatch]);

@@ -17,7 +17,6 @@ const ChannelsBox = () => {
   const dispatch = useDispatch();
 
   const handleButtonClick = (channelId) => {
-    console.log('Clicked channel with ID:', channelId);
     dispatch(changeChannelId(channelId)); // Отправляем действие для обновления currentChannelId
   };
 

@@ -25,7 +25,6 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
 
   useEffect(() => {
     socket.on('renameChannel', (updChannel) => {
-      // console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
       dispatch(updateChannelData(updChannel));
     });
   }, [dispatch]);
@@ -51,13 +50,12 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
       name: channelName,
     };
       <Modal.Title>{t('modals.addChannel')}</Modal.Title>;
-      socket.emit('renameChannel', newChannel, (acknowledgement) => {
-        console.log('Сообщение отправлено:    const [show, setShow] = useState(false);', acknowledgement);
-      });
+      socket.emit('renameChannel', newChannel);
       setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
       handleClose();
       notify();
   };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();

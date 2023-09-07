@@ -39,8 +39,6 @@ const Signup = () => {
 
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  // const location = useLocation();
-  // const navigate = useNavigate();
   const { logIn } = useContext(AuthContext);
 
   useEffect(() => {
@@ -62,11 +60,7 @@ const Signup = () => {
         await validationSchema.validate(values, { abortEarly: false });
         const response = await registerUser(values); // Отправить данные на сервер
         localStorage.setItem('token', response.token);
-        console.log('Регистрация прошла успешно:', response);
-
         logIn(values);
-        // const from = location.state && location.state.from ? location.state.from : '/';
-        // navigate(from);
       } catch (err) {
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);

@@ -33,9 +33,7 @@ const MessageForm = ({ channelId }) => {
       timestamp: new Date().toISOString(),
       message: censoredMessage,
     };
-    socket.emit('newMessage', newMessage, (acknowledgement) => {
-      console.log('Сообщение отправлено:', acknowledgement);
-    });
+    socket.emit('newMessage', newMessage);
     setMessage('');
   };
 

@@ -25,16 +25,13 @@ const LoginPage = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
-  const [loginError, setLoginError] = useState(null);
   const inputRef = useRef();
   const location = useLocation();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
-    // username: Yup.string().required('Это поле обязательно'),
     password: Yup.string()
       .required(t('required')),
-    // .min(4, 'Пароль должен быть не менее 4 символов'),
   });
 
   useEffect(() => {
@@ -47,9 +44,6 @@ const LoginPage = () => {
       password: '',
     },
 
-    // validationSchema: validationSchema,
-    // validateOnBlur: false,
-
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
@@ -57,19 +51,11 @@ const LoginPage = () => {
         const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn(values);
-        // console.log(`auth.logIn(values)`,auth.logIn(values));
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
-        console.log('error!!!!!', 123);
       } catch (err) {
-        console.log('Error status code:', err.response.status);
-        console.log('err.isAxiosError', err.isAxiosError);
-        console.log('err.response.status', err.response.status);
-        console.log('error!!!!!', err);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
-          setLoginError(err); // Устанавливаем ошибку в loginError
-          console.log('loginError111111111', loginError);
         }
         if (err.name === 'ValidationError') {
           const formErrors = err.inner.reduce((acc, current) => {

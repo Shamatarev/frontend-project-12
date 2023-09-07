@@ -19,11 +19,8 @@ const ChannelModalDel = ({
     const channelID = {
       id,
     };
-    console.log('channelID', channelID);
     // отправляю событие на сервер для удаления канала по id
-    socket.emit('removeChannel', channelID, (acknowledgement) => {
-      console.log('Канал удален:', acknowledgement);
-    });
+    socket.emit('removeChannel', channelID);
     handleClose(); // Закройте модальное окно после удаления
     notify();
   };

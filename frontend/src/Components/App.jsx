@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -11,6 +9,7 @@ import LoginPage from './Login/LoginPage.jsx';
 import Signup from './SignUp/signup.jsx';
 import MainPage from './Chat/MainPage.jsx';
 import useAuth from '../hooks/index.jsx';
+import NotFound from './Errors/NotFound.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import 'react-toastify/dist/ReactToastify.css';
 import AuthProvider from '../contexts/AuthProvider.jsx';
@@ -35,6 +34,7 @@ const App = () => (
             path="/private"
             element={<PrivateRoute element={<MainPage />} />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>

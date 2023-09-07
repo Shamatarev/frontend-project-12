@@ -42,7 +42,6 @@ export const ChannelModalAdd = () => {
 
   useEffect(() => {
     socket.on('newChannel', (newChannel) => {
-      // console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
       dispatch(addChannel(newChannel));
       if (newChannel.user === saveUserData.username) {
         dispatch(changeChannelId(newChannel.id));
@@ -70,9 +69,7 @@ export const ChannelModalAdd = () => {
       name: channelName,
       user: saveUserData.username,
     };
-    socket.emit('newChannel', newChannel, (acknowledgement) => {
-      console.log('Сообщение отправлено:', acknowledgement);
-    });
+    socket.emit('newChannel', newChannel);
     setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
     handleClose();
     notify();
