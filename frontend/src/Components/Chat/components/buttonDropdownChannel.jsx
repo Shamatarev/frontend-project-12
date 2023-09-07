@@ -1,17 +1,18 @@
-
+/* eslint-disable max-len */
+/* eslint-disable functional/no-expression-statement */
 /* eslint-disable react/prop-types */
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
-import ChannelName from '../../common/ChannelName.jsx';
-import  ChannelModalDel  from './modalChannelDel';
-import ChannelModalUpdate  from './modalChannelUpdate';
 import { useTranslation } from 'react-i18next';
+import ChannelName from '../../common/ChannelName.jsx';
+import ChannelModalDel from './modalChannelDel';
+import ChannelModalUpdate from './modalChannelUpdate';
 
-
-
-const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, onClick }) => {
+const DropButton = ({
+  channel, isActive, name = channel.name, id = channel.id, onClick,
+}) => {
   const { t } = useTranslation();
 
   const classNameMainButton = cn('w-100 rounded-0 text-start btn', {
@@ -39,7 +40,7 @@ const DropButton = ({ channel, isActive, name = channel.name, id = channel.id, o
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
- 
+
       <Button type="button" className={classNameMainButton} onClick={() => onClick(channel.id)}>
         <ChannelName name={name} />
       </Button>

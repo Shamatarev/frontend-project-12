@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-conditional-statement */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
@@ -7,24 +8,17 @@ import {
   Navigate,
 } from 'react-router-dom';
 import LoginPage from './Login/LoginPage.jsx';
-import Signup from './SignUp/signup.jsx'
+import Signup from './SignUp/signup.jsx';
 import MainPage from './Chat/MainPage.jsx';
 import useAuth from '../hooks/index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import 'react-toastify/dist/ReactToastify.css';
 import AuthProvider from '../contexts/AuthProvider.jsx';
 
-
 const PrivateRoute = ({ element }) => {
-  console.log("PrivateRoute element", {element})
   const auth = useAuth();
-  console.log(13123131, auth.loggedIn)
   // Если пользователь не авторизован, перенаправляем на страницу логина
-  if (!auth.loggedIn) {
-    return <Navigate to="/login" />;
-  }
-  
-  return element;
+  return !auth.loggedIn ? <Navigate to="/login" /> : element;
 };
 
 const App = () => (
@@ -34,8 +28,8 @@ const App = () => (
         <Routes>
           {/* Добавляем PrivateRoute для главной страницы */}
           <Route path="/" element={<PrivateRoute element={<MainPage />} />} />
-          <Route path="/login" element={<LoginPage /> } />
-          <Route path="/signup" element={<Signup /> } />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<Signup />} />
 
           <Route
             path="/private"

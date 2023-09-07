@@ -1,8 +1,9 @@
+/* eslint-disable functional/no-expression-statement */
 /* eslint no-param-reassign: ["error", { "props": true,
 "ignorePropertyModificationsFor": ["state"] }] */
 import { createSlice } from '@reduxjs/toolkit';
 
-//mport { actions as loadingStatusActions } from './loadingStatusSlice.js';
+// mport { actions as loadingStatusActions } from './loadingStatusSlice.js';
 
 const initialState = ({
   isOpened: false,
@@ -21,10 +22,6 @@ const modalSlice = createSlice({
       state.isOpened = false;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(loadingStatusActions.unload, () => initialState);
-  // },
 });
 
 const { actions } = modalSlice;

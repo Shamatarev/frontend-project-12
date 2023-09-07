@@ -1,5 +1,8 @@
+/* eslint-disable functional/no-expression-statement */
 import React from 'react';
-import { render, screen, expect, test } from '@testing-library/react';
+import {
+  render, screen, expect, test,
+} from '@testing-library/react';
 import App from './App';
 
 test('renders learn react link', () => {

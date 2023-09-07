@@ -1,121 +1,117 @@
-
+/* eslint-disable no-shadow */
+/* eslint-disable max-len */
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable functional/no-expression-statement */
 /* eslint-disable react/prop-types */
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { socket }  from "../../../contexts/ProvideAPI";
-import { useDispatch } from "react-redux";
-import { updateChannelData } from "../../../slices/channels";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { updateChannelData } from '../../../slices/channels';
+import { socket } from '../../../contexts/ProvideAPI';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-///__________________________________________________________________________________________________________
-
-const ChannelModalUpdate = ({ show, handleClose, id}) =>  {
+const ChannelModalUpdate = ({ show, handleClose, id }) => {
   const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
-  const [channelName,setChannelName] = useState('')
-  const dispatch = useDispatch()
-  const {t} = useTranslation()
+  const [channelName, setChannelName] = useState('');
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const notify = () => toast(t('toasts.renameChannel'));
 
-    useEffect(() => {
-      socket.on('renameChannel', (updChannel) => {
-        //console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
-        dispatch(updateChannelData(updChannel));
+  useEffect(() => {
+    socket.on('renameChannel', (updChannel) => {
+      // console.log('Сообщение с сервера:', newMessage); // Выводим полученное сообщение в консоль
+      dispatch(updateChannelData(updChannel));
+    });
+  }, [dispatch]);
 
-      });
-    }, [])
+  const upChannel = () => {
+    if (channelName.trim() === '') {
+      return;
+    }
 
-    
-    const upChannel = () => {
-      if (channelName.trim() === '') {
-        return;
-      }
+    const channelIds = Object.keys(channels.entities); // Получаем массив id каналов из объекта entities
+    const isDuplicate = channelIds.some((id) => {
+      const channel = channels.entities[id];
+      return channel.name === channelName;
+    });
 
+    if (isDuplicate) {
+      setIsInvalid(true);
+      return;
+    }
 
-      const channelIds = Object.keys(channels.entities); // Получаем массив id каналов из объекта entities
-      const isDuplicate = channelIds.some((id) => {
-        const channel = channels.entities[id];
-        return channel.name === channelName;
-      });
-
-      if (isDuplicate) {
-        setIsInvalid(true);
-        return;
-      }
-
-      const newChannel = {
-        id,
-        name: channelName, 
-      };
-      <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+    const newChannel = {
+      id,
+      name: channelName,
+    };
+      <Modal.Title>{t('modals.addChannel')}</Modal.Title>;
       socket.emit('renameChannel', newChannel, (acknowledgement) => {
         console.log('Сообщение отправлено:    const [show, setShow] = useState(false);', acknowledgement);
-
       });
       setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
       handleClose();
       notify();
-    };
-    const handleKeyDown = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        upChannel(); // Вызываем функцию отправки данных
-      }
-    };
-    
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      upChannel(); // Вызываем функцию отправки данных
+    }
+  };
+
   return (
-    <>
-      <Modal 
+    <Modal
       show={show}
       centered
-      onHide={handleClose}>
+      onHide={handleClose}
+    >
+      <Modal.Body>
         <Modal.Header closeButton>
           <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-              autoFocus
-            >
-              <Modal.Footer>
+        <Form>
+          <Form.Group
+            className="mb-3"
+            controlId="exampleForm.ControlTextarea1"
+            autoFocus
+          >
+            <Modal.Footer>
               <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
-              <Form.Control 
-              id="name"
-              name="name"
-              type="text"
-              placeholder={t('modals.channelName')}        
-              value={channelName}
-              onChange={(e) => {
+              <Form.Control
+                id="name"
+                name="name"
+                type="text"
+                placeholder={t('modals.channelName')}
+                value={channelName}
+                onChange={(e) => {
                   setChannelName(e.target.value);
                   setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
-              }}
-              isInvalid={isInvalid} // Применяем стили по условию
-              onKeyDown={handleKeyDown} // Добавляем обработчик события
-          />
-          <div className="invalid-feedback">{t('modals.duplicate')}</div> {/* Добавил блок div для сообщения */}
-          <Button variant="secondary" onClick={handleClose}>
-          {t('modals.cancelButton')}
-          </Button>
-          <Button variant="primary" onClick={upChannel} disabled={isInvalid} >
-          {t('modals.sendButton')}
-          </Button>
-          </Modal.Footer>
+                }}
+                isInvalid={isInvalid} // Применяем стили по условию
+                onKeyDown={handleKeyDown}
+              />
+              <div className="invalid-feedback">{t('modals.duplicate')}</div>
+              {' '}
+              {/* Добавил блок div для сообщения */}
+              <Button variant="secondary" onClick={handleClose}>
+                {t('modals.cancelButton')}
+              </Button>
+              <Button variant="primary" onClick={upChannel} disabled={isInvalid}>
+                {t('modals.sendButton')}
+              </Button>
+            </Modal.Footer>
           </Form.Group>
-          </Form>
-        </Modal.Body>
-        
-      </Modal>
-    </>
+        </Form>
+      </Modal.Body>
+
+    </Modal>
   );
-}
+};
 
 export default ChannelModalUpdate;
