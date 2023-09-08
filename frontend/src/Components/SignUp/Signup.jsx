@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import avatar from '../../assets/avatar.jpg'; // Импорт изображения
-import Header from '../common/header';
+import Header from '../common/Header';
 import AuthContext from '../../contexts/index';
 
 const Signup = () => {

@@ -9,8 +9,8 @@ import { socket } from '../../../contexts/ProvideAPI';
 import { addPost, selectorsMessage } from '../../../slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
-import getMessageCountLabel from './getMessageCountLabel';
-import MessageForm from './messge';
+import getMessageCountLabel from '../../../hooks/getMessageCountLabel';
+import MessageForm from './Messge.jsx';
 
 const messagesBox = () => {
   const [message, setMessage] = useState('');

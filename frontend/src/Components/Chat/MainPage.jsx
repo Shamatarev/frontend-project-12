@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Header from '../common/header';
-import ChannelsBox from './components/channelsBox';
-import MessagesBox from './components/messageBox';
+import Header from '../common/Header';
+import ChannelsBox from './components/ChannelsBox.jsx';
+import MessagesBox from './components/MessageBox.jsx';
 import fetchData from '../../slices/thunks';
 
 const MainPage = () => {

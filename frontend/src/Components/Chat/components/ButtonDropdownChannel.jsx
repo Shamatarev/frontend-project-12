@@ -3,8 +3,8 @@ import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import ChannelName from '../../common/ChannelName.jsx';
-import ChannelModalDel from './modalChannelDel';
-import ChannelModalUpdate from './modalChannelUpdate';
+import ChannelModalDel from './ModalChannelDel.jsx';
+import ChannelModalUpdate from './ModalChannelUpdate.jsx';
 
 const DropButton = ({
   channel, isActive, name = channel.name, id = channel.id, onClick,

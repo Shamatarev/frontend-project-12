@@ -11,7 +11,7 @@ import useAuth from '../../hooks/index';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import * as Yup from 'yup';
-import Header from '../common/header';
+import Header from '../common/Header';
 import { useTranslation } from 'react-i18next';
 
 const apiPath = '/api/v1';

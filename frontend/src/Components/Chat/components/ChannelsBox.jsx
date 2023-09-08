@@ -6,9 +6,9 @@ import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectors, changeChannelId } from '../../../slices/channels';
-import { ChannelModalAdd } from './modalСhannelAdd';
-import SimpleButton from './buttonSimpleChannel';
-import DropButton from './buttonDropdownChannel';
+import { ChannelModalAdd } from './ModalСhannelAdd.jsx';
+import SimpleButton from './ButtonSimpleChannel.jsx';
+import DropButton from './ButtonDropdownChannel.jsx';
 
 const ChannelsBox = () => {
   const { t } = useTranslation();
