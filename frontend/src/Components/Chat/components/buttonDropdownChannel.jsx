@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable react/prop-types */
-
 import React, { useState } from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
@@ -22,16 +18,19 @@ const DropButton = ({
     'btn-secondary': isActive,
   });
   const [showModal, setShowModal] = useState(false);
-  const [modalAction, setModalAction] = useState(null); // Добавляем состояние для определения действия модального окна
+  // Добавляем состояние для определения действия модального окна
+  const [modalAction, setModalAction] = useState(null);
 
   const handleButtonClickRemoveChannel = () => {
     setShowModal(true);
-    setModalAction('delete'); // Устанавливаем действие "delete" при клике на кнопку удаления
+    // Устанавливаем действие "delete" при клике на кнопку удаления
+    setModalAction('delete');
   };
 
   const handleButtonUpdateClickChannel = () => {
     setShowModal(true);
-    setModalAction('rename'); // Устанавливаем действие "rename" при клике на кнопку переименования
+    // Устанавливаем действие "rename" при клике на кнопку переименования
+    setModalAction('rename');
   };
 
   const handleCloseModal = () => {
