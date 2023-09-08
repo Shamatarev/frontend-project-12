@@ -1,9 +1,4 @@
 /* eslint-disable no-shadow */
-/* eslint-disable max-len */
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable react/prop-types */
-
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -12,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { updateChannelData } from '../../../slices/channels';
-import { socket } from '../../../contexts/ProvideAPI';
+import socket from '../../../contexts/ProvideAPI';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalUpdate = ({ show, handleClose, id }) => {
@@ -33,8 +28,8 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
     if (channelName.trim() === '') {
       return;
     }
-
-    const channelIds = Object.keys(channels.entities); // Получаем массив id каналов из объекта entities
+    // Получаем массив id каналов из объекта entities
+    const channelIds = Object.keys(channels.entities);
     const isDuplicate = channelIds.some((id) => {
       const channel = channels.entities[id];
       return channel.name === channelName;

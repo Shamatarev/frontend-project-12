@@ -1,8 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable react/prop-types */
-
 import React, { useState, useContext, useEffect } from 'react';
 import { InputGroup, Form, Button } from 'react-bootstrap';
 import { BsSend } from 'react-icons/bs';
@@ -10,7 +6,7 @@ import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
 import AuthContext from '../../../contexts/index';
-import { socket } from '../../../contexts/ProvideAPI';
+import socket from '../../../contexts/ProvideAPI';
 
 const MessageForm = ({ channelId }) => {
   const [message, setMessage] = useState('');

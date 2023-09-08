@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-expression-statement */
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
@@ -35,8 +33,20 @@ const ChannelsBox = () => {
 
             <li key={channel.id} className="nav-item w-100">
               { channel.removable === true
-                ? <DropButton channel={channel} isActive={currentChannelId === channel.id} onClick={() => handleButtonClick(channel.id)} />
-                : <SimpleButton channel={channel} isActive={currentChannelId === channel.id} onClick={() => handleButtonClick(channel.id)} />}
+                ? (
+                  <DropButton
+                    channel={channel}
+                    isActive={currentChannelId === channel.id}
+                    onClick={() => handleButtonClick(channel.id)}
+                  />
+                )
+                : (
+                  <SimpleButton
+                    channel={channel}
+                    isActive={currentChannelId === channel.id}
+                    onClick={() => handleButtonClick(channel.id)}
+                  />
+                )}
             </li>
           ))}
         </ul>

@@ -1,9 +1,5 @@
-/* eslint-disable functional/no-expression-statement */
-/* eslint no-param-reassign: ["error", { "props": true,
-"ignorePropertyModificationsFor": ["state"] }] */
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-
-// mport { actions as loadingStatusActions } from './loadingStatusSlice.js';
 
 const initialState = ({
   isOpened: false,

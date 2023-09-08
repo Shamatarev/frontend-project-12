@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable functional/no-expression-statement */
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import fetchData from './thunks';
 

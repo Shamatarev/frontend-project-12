@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable functional/no-expression-statement */
 /* eslint-disable import/order */
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
@@ -89,7 +86,9 @@ const LoginPage = () => {
                       <Form.Control
                         onChange={formik.handleChange}
                         value={formik.values.username}
-                        isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
+                        isInvalid={
+                          authFailed || (formik.touched.username && formik.errors.username)
+                        }
                         ref={inputRef}
                         required
                         className="form-control"
@@ -105,7 +104,9 @@ const LoginPage = () => {
                         type="password"
                         onChange={formik.handleChange}
                         value={formik.values.password}
-                        isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
+                        isInvalid={
+                          authFailed || (formik.touched.password && formik.errors.password)
+                        }
                         required
                         className="form-control"
                         placeholder={t('password')}

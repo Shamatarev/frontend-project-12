@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable functional/no-expression-statement */
 import React, {
   useEffect, useRef, useState, useContext,
 } from 'react';
@@ -98,7 +95,9 @@ const Signup = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.username}
-                        isInvalid={authFailed || (formik.touched.username && formik.errors.username)}
+                        isInvalid={
+                          authFailed || (formik.touched.username && formik.errors.username)
+                        }
                         ref={inputRef}
                         required
                         className="form-control"
@@ -119,7 +118,9 @@ const Signup = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
-                        isInvalid={authFailed || (formik.touched.password && formik.errors.password)}
+                        isInvalid={
+                          authFailed || (formik.touched.password && formik.errors.password)
+                        }
                         required
                         className="form-control"
                         placeholder={t('password')}
@@ -140,7 +141,10 @@ const Signup = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.confirmPassword}
-                        isInvalid={authFailed || (formik.touched.confirmPassword && formik.errors.confirmPassword)}
+                        isInvalid={
+                          // eslint-disable-next-line max-len
+                          authFailed || (formik.touched.confirmPassword && formik.errors.confirmPassword)
+                        }
                         required
                         className="form-control"
                         placeholder={t('signUpPage.passwordConfirmation')}

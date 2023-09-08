@@ -1,11 +1,10 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-shadow */
-/* eslint-disable max-len */
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/rules-of-hooks */
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { socket } from '../../../contexts/ProvideAPI';
+import socket from '../../../contexts/ProvideAPI';
 import { addPost, selectorsMessage } from '../../../slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
@@ -44,15 +43,16 @@ const messagesBox = () => {
 
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           <div className="text-break mb-2">
-            {messages.filter(({ channelId }) => channelId === currentChannelId).map(({ user, message }, uniqueId) => (
-              <div key={uniqueId} className="text-break mb-2">
-                <b>
-                  {user}
-                  {': '}
-                </b>
-                {message}
-              </div>
-            ))}
+            {messages.filter(({ channelId }) => channelId === currentChannelId)
+              .map(({ user, message }, uniqueId) => (
+                <div key={uniqueId} className="text-break mb-2">
+                  <b>
+                    {user}
+                    {': '}
+                  </b>
+                  {message}
+                </div>
+              ))}
           </div>
         </div>
 

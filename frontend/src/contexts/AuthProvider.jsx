@@ -1,15 +1,11 @@
-/* eslint-disable functional/no-conditional-statement */
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable max-len */
-/* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
+/* eslint-disable import/order */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AuthContext from './index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import { socket } from './ProvideAPI';
+import socket from './ProvideAPI';
 import { removeChannel } from '../slices/channels.js';
 import { removeMessagesByChannelId } from '../slices/messages';
 import { useDispatch } from 'react-redux';
@@ -29,9 +25,10 @@ const AuthProvider = ({ children }) => {
   //  console.log(Boolean(saveUserData))
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
   const [authCompleted, setAuthCompleted] = useState(false);
-  const [authSuccess, setAuthSuccess] = useState(false); // Добавляем состояние для успешной авторизации
-  // eslint-disable-next-line no-unused-vars
-  const [currentUser, setCurrentUser] = useState(null); // Добавляем состояние для текущего пользователя
+  // Добавляем состояние для успешной авторизации
+  const [authSuccess, setAuthSuccess] = useState(false);
+  // Добавляем состояние для текущего пользователя
+  const [currentUser, setCurrentUser] = useState(null);
   const [authError, setAuthError] = useState(null);
   //     const handleConnectionError = () => {
   //     // Выводим сообщение об ошибке соединения

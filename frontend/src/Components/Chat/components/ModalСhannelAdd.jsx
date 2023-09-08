@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-conditional-statement */
-/* eslint-disable functional/no-expression-statement */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable import/no-duplicates */
 import React, { useState, useEffect, useContext } from 'react';
@@ -10,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { socket } from '../../../contexts/ProvideAPI';
+import socket from '../../../contexts/ProvideAPI';
 import { addChannel } from '../../../slices/channels';
 import { changeChannelId } from '../../../slices/channels'; // Импортируйте действие из вашего среза
 import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
@@ -54,7 +51,8 @@ export const ChannelModalAdd = () => {
     if (channelName.trim() === '') {
       return;
     }
-    const channelIds = Object.keys(channels.entities); // Получаем массив id каналов из объекта entities
+    // Получаем массив id каналов из объекта entities
+    const channelIds = Object.keys(channels.entities);
     const isDuplicate = channelIds.some((id) => {
       const channel = channels.entities[id];
       return channel.name === channelName;

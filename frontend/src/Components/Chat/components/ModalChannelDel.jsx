@@ -1,12 +1,9 @@
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable react/prop-types */
-
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { socket } from '../../../contexts/ProvideAPI';
+import socket from '../../../contexts/ProvideAPI';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalDel = ({
