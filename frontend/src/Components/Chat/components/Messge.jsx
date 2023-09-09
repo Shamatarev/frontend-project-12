@@ -5,7 +5,7 @@ import { BsSend } from 'react-icons/bs';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
-import AuthContext from '../../../contexts/index';
+import { AuthContext } from '../../../contexts/AuthProvider';
 import socket from '../../../contexts/ProvideAPI';
 
 const MessageForm = ({ channelId }) => {

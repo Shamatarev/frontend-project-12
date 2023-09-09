@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import avatar from '../../assets/avatar.jpg'; // Импорт изображения
 import Header from '../common/Header';
-import AuthContext from '../../contexts/index';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const Signup = () => {
   const { t } = useTranslation();

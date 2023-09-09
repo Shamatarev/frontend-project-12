@@ -8,11 +8,10 @@ import {
 import LoginPage from './Login/LoginPage.jsx';
 import Signup from './SignUp/Signup.jsx';
 import MainPage from './Chat/MainPage.jsx';
-import useAuth from '../hooks/index.jsx';
+import AuthProvider, { useAuth } from '../contexts/AuthProvider';
 import NotFound from './Errors/NotFound.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import 'react-toastify/dist/ReactToastify.css';
-import AuthProvider from '../contexts/AuthProvider.jsx';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();

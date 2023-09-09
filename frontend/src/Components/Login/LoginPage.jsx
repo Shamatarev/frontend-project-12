@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/index';
+import { useAuth } from '../../contexts/AuthProvider';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import * as Yup from 'yup';

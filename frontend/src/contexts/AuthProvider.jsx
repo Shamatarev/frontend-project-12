@@ -1,27 +1,24 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState, useEffect, createContext, useContext,
+} from 'react';
 import axios from 'axios';
-import AuthContext from './index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import socket from './ProvideAPI';
 import { removeChannel } from '../Slices/channels.js';
 import { removeMessagesByChannelId } from '../Slices/messages.js';
 import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import routes from './routes';
 
-const apiPath = '/api/v1';
-
-const routes = {
-  loginPath: () => [apiPath, 'login'].join('/'),
-  usersPath: () => [apiPath, 'data'].join('/'),
-};
+const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   const saveUserData = JSON.parse(localStorage.getItem('userId'));
   // const {t} = useTranslation()
-  //  console.log('saveUserData',saveUserData)
+  console.log('saveUserData', saveUserData);
   //  console.log(Boolean(saveUserData))
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
   const [authCompleted, setAuthCompleted] = useState(false);
@@ -40,19 +37,6 @@ const AuthProvider = ({ children }) => {
   //   toast.error(t('fetchDataError'));
   // };
   const logIn = async (values) => {
-    // axios.get(routes)
-    //   .then(response => {
-    //     if (response.status === 200) {
-    //       console.log('Сервер доступен, есть интернет.');
-    //     } else {
-    //       console.log('Проблемы с сервером или интернетом.');
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Ошибка при запросе:', error);
-    //     handleConnectionError()
-    //   });
-
     try {
       const res = await axios.post(routes.loginPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
@@ -107,4 +91,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+const useAuth = () => useContext(AuthContext);
+export { AuthContext, useAuth };
 export default AuthProvider;

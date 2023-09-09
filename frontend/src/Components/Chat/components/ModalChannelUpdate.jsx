@@ -89,8 +89,6 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
                 onKeyDown={handleKeyDown}
               />
               <div className="invalid-feedback">{t('modals.duplicate')}</div>
-              {' '}
-              {/* Добавил блок div для сообщения */}
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
               </Button>

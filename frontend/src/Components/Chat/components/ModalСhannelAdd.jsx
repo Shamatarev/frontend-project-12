@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import socket from '../../../contexts/ProvideAPI';
 import { addChannel } from '../../../Slices/channels';
 import { changeChannelId } from '../../../Slices/channels'; // Импортируйте действие из вашего среза
-import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
+import { AuthContext } from '../../../contexts/AuthProvider'; // Замените на правильный путь к вашему контексту
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ChannelModalAdd = () => {
