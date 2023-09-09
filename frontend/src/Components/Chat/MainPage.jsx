@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Header from '../common/Header';
 import ChannelsBox from './components/ChannelsBox.jsx';
 import MessagesBox from './components/MessageBox.jsx';
-import fetchData from '../../slices/thunks';
+import fetchData from '../../Slices/thunks';
 
 const MainPage = () => {
   const dispatch = useDispatch();

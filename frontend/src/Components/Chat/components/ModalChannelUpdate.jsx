@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { updateChannelData } from '../../../slices/channels';
+import { updateChannelData } from '../../../Slices/channels';
 import socket from '../../../contexts/ProvideAPI';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -71,7 +71,6 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
         <Form>
           <Form.Group
             className="mb-3"
-            controlId="exampleForm.ControlTextarea1"
             autoFocus
           >
             <Modal.Footer>

@@ -39,7 +39,6 @@ const enLocales = {
     channelControl: 'Channel management',
     remove: 'Remove',
     rename: 'Rename',
-    messages_none: 'not messages',
     messages_one: '{{count}} message',
     messages_few: '{{count}} messages',
     messages_many: '{{count}} messages',

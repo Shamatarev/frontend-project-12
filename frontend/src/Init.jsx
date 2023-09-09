@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify'; // Импортируйте Toa
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import resources from './locales/index.js';
 import socket from './contexts/ProvideAPI';
-import store from './slices/index';
+import store from './Slices/index';
 import App from './Components/App';
 
 const userLanguage = localStorage.getItem('userLanguage');

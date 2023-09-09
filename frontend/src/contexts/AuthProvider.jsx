@@ -6,8 +6,8 @@ import axios from 'axios';
 import AuthContext from './index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import socket from './ProvideAPI';
-import { removeChannel } from '../slices/channels.js';
-import { removeMessagesByChannelId } from '../slices/messages';
+import { removeChannel } from '../Slices/channels.js';
+import { removeMessagesByChannelId } from '../Slices/messages.js';
 import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 

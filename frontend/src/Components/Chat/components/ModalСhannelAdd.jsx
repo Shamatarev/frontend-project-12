@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import socket from '../../../contexts/ProvideAPI';
-import { addChannel } from '../../../slices/channels';
-import { changeChannelId } from '../../../slices/channels'; // Импортируйте действие из вашего среза
+import { addChannel } from '../../../Slices/channels';
+import { changeChannelId } from '../../../Slices/channels'; // Импортируйте действие из вашего среза
 import AuthContext from '../../../contexts/index'; // Замените на правильный путь к вашему контексту
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -100,7 +100,6 @@ export const ChannelModalAdd = () => {
           <Form>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
               autoFocus
             >
               <Modal.Footer>

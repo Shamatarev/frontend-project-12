@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChannelName from '../../common/ChannelName.jsx';
 import ChannelModalDel from './ModalChannelDel.jsx';
 import ChannelModalUpdate from './ModalChannelUpdate.jsx';
-import { actions as modalActions, selectors as modalSelectors } from '../../../slices/modal.js';
+import { actions as modalActions, selectors as modalSelectors } from '../../../Slices/modal.js';
 
 const ChannelButton = ({
   channel, isActive, onClick, removable,

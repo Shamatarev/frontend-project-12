@@ -39,7 +39,6 @@ const ruLocales = {
     channelControl: 'Управление каналом',
     remove: 'Удалить',
     rename: 'Переименовать',
-    messages_none: 'нет сообщений',
     messages_one: '{{count}} сообщение',
     messages_few: '{{count}} сообщения',
     messages_many: '{{count}} сообщений',

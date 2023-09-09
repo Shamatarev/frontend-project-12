@@ -1,14 +1,13 @@
-/* eslint-disable no-shadow */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable no-shadow */
 /* eslint-disable react-hooks/rules-of-hooks */
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
 import socket from '../../../contexts/ProvideAPI';
-import { addPost, selectorsMessage } from '../../../slices/messages';
+import { addPost, selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
-import { selectors } from '../../../slices/channels';
-import getMessageCountLabel from '../../../hooks/getMessageCountLabel';
+import { selectors } from '../../../Slices/channels';
 import MessageForm from './Messge.jsx';
 
 const messagesBox = () => {
@@ -18,6 +17,7 @@ const messagesBox = () => {
   const messages = useSelector(selectorsMessage.selectAll);
   const summMessages = messages.filter(({ channelId }) => channelId === currentChannelId).length;
   const channels = useSelector(selectors.selectAll);
+  const { t } = useTranslation(); // Используйте хук useTranslation
 
   const sendMessage = (e) => {
     e.preventDefault(); // Предотвращаем перезагрузку страницы
@@ -37,7 +37,7 @@ const messagesBox = () => {
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0"><b><ChannelName name={channels.find((channel) => channel.id === currentChannelId)?.name} /></b></p>
           <span className="text-muted">
-            {getMessageCountLabel(summMessages)}
+            {t('messages', { count: summMessages })}
           </span>
         </div>
 
