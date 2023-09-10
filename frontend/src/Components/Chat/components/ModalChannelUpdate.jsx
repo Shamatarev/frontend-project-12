@@ -73,6 +73,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
               name="name"
               value={channelName}
               className="mb-2 form-control"
+              placeholder="Имя канала"
               onChange={(e) => {
                 setChannelName(e.target.value);
                 setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
