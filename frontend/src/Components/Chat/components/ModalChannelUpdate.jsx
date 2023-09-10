@@ -40,10 +40,6 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
       id,
       name: channelName,
     };
-
-    console.log(renChannel);
-    console.log(newChannel);
-
     renChannel(newChannel);
     setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
     handleClose();
@@ -73,7 +69,6 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
             autoFocus
           >
             <Modal.Footer>
-              <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
               <Form.Control
                 id="name"
                 name="name"
@@ -87,6 +82,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
                 isInvalid={isInvalid} // Применяем стили по условию
                 onKeyDown={handleKeyDown}
               />
+              {/* <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label> */}
               <div className="invalid-feedback">{t('modals.duplicate')}</div>
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
