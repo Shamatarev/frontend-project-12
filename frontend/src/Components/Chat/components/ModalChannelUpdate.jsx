@@ -1,28 +1,24 @@
 /* eslint-disable no-shadow */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+// eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { updateChannelData } from '../../../Slices/channels';
+
 import socket from '../../../contexts/ProvideAPI';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalUpdate = ({ show, handleClose, id }) => {
   const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
   const [channelName, setChannelName] = useState('');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const notify = () => toast(t('toasts.renameChannel'));
-
-  useEffect(() => {
-    socket.on('renameChannel', (updChannel) => {
-      dispatch(updateChannelData(updChannel));
-    });
-  }, [dispatch]);
 
   const upChannel = () => {
     if (channelName.trim() === '') {

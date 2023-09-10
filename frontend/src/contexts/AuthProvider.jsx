@@ -8,7 +8,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import socket from './ProvideAPI';
 import { removeChannel } from '../Slices/channels.js';
-import { removeMessagesByChannelId } from '../Slices/messages.js';
+
 import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import routes from './routes';
@@ -69,17 +69,6 @@ const AuthProvider = ({ children }) => {
       window.location.href = '/login';
     }
   }, [authCompleted, loggedIn, authSuccess]);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    socket.on('removeChannel', (id) => {
-      console.log('Сообщение с сервера:', id); // Выводим id  в консоль
-      dispatch(removeChannel(id));
-      // console.log('newChannel.id', channelID)
-      dispatch(removeMessagesByChannelId(id));
-    });
-  }, [dispatch]);
 
   return (
     <AuthContext.Provider value={{

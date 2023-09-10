@@ -1,10 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-shadow */
 /* eslint-disable react-hooks/rules-of-hooks */
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
 import socket from '../../../contexts/ProvideAPI';
+// eslint-disable-next-line no-unused-vars
 import { addPost, selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../Slices/channels';
@@ -12,7 +15,7 @@ import MessageForm from './Messge.jsx';
 
 const messagesBox = () => {
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector(selectorsMessage.selectAll);
   const summMessages = messages.filter(({ channelId }) => channelId === currentChannelId).length;
@@ -24,12 +27,6 @@ const messagesBox = () => {
     socket.send(message);
     setMessage('');
   };
-
-  useEffect(() => {
-    socket.on('newMessage', (newMessage) => {
-      dispatch(addPost(newMessage));
-    });
-  }, [dispatch]);
 
   return (
     <div className="col p-0 h-100">

@@ -1,15 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable import/no-duplicates */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+// eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import socket from '../../../contexts/ProvideAPI';
-import { addChannel } from '../../../Slices/channels';
-import { changeChannelId } from '../../../Slices/channels'; // Импортируйте действие из вашего среза
+
 import { AuthContext } from '../../../contexts/AuthProvider'; // Замените на правильный путь к вашему контексту
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,7 +28,6 @@ export const ChannelModalAdd = () => {
   };
 
   const handleShow = () => setShow(true);
-  const dispatch = useDispatch();
 
   const addButtonStyle = {
     width: '25px',
@@ -36,15 +36,6 @@ export const ChannelModalAdd = () => {
   };
 
   const channels = useSelector((state) => state.channels);
-
-  useEffect(() => {
-    socket.on('newChannel', (newChannel) => {
-      dispatch(addChannel(newChannel));
-      if (newChannel.user === saveUserData.username) {
-        dispatch(changeChannelId(newChannel.id));
-      }
-    });
-  }, [dispatch, saveUserData.username]);
 
   const sendChannel = () => {
     const notify = () => toast(t('toasts.createChannel'));
