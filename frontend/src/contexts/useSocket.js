@@ -33,7 +33,7 @@ const useSocket = (saveUserData, dispatch) => {
     socket.on('newMessage', handleNewMessage);
     socket.on('removeChannel', handleRemoveChannel);
 
-    // Важно отписываться от событий при размонтировании компонента
+    // отписываюсь при размонтировании компонента
     return () => {
       socket.off('newChannel', handleNewChannel);
       socket.off('renameChannel', handleRenameChannel);
