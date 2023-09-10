@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ const ChannelButton = ({
   const dispatch = useDispatch();
   const isOpened = useSelector(modalSelectors.isModalOpened);
   const modalType = useSelector(modalSelectors.getModalType);
+  // Добавляем состояние для определения действия модального окна
+  const [modalAction, setModalAction] = useState(null);
 
   const classNameMainButton = cn('w-100 rounded-0 text-start btn', {
     'btn-primary': isActive,
@@ -32,6 +34,7 @@ const ChannelButton = ({
       console.log('Delete button clicked');
       dispatch(modalActions.open({ type: 'delete' }));
     }
+    setModalAction('delete');
   };
 
   const handleButtonUpdateClickChannel = () => {
@@ -39,6 +42,7 @@ const ChannelButton = ({
       console.log('Rename button clicked');
       dispatch(modalActions.open({ type: 'rename' }));
     }
+    setModalAction('rename');
   };
 
   const handleCloseModal = () => {
@@ -63,11 +67,11 @@ const ChannelButton = ({
       )}
 
       {isOpened && modalType === 'delete' && (
-        <ChannelModalDel show={isOpened} id={id} handleClose={handleCloseModal} />
+        modalAction === 'delete' && <ChannelModalDel show={isOpened} id={id} handleClose={handleCloseModal} />
       )}
 
       {isOpened && modalType === 'rename' && (
-        <ChannelModalUpdate show={isOpened} id={id} handleClose={handleCloseModal} />
+        modalAction === 'rename' && <ChannelModalUpdate show={isOpened} id={id} handleClose={handleCloseModal} />
       )}
     </Dropdown>
   );
