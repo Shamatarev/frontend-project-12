@@ -65,32 +65,33 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
         </Modal.Header>
         <Form>
           <Form.Group
-            className="mb-3"
             autoFocus
           >
-            <Modal.Footer>
-              <Form.Control
-                id="name"
-                name="name"
-                type="text"
-                placeholder={t('modals.channelName')}
-                value={channelName}
-                onChange={(e) => {
-                  setChannelName(e.target.value);
-                  setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
-                }}
-                isInvalid={isInvalid} // Применяем стили по условию
-                onKeyDown={handleKeyDown}
-              />
-              <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
-              <div className="invalid-feedback">{t('modals.duplicate')}</div>
+
+            <Form.Control
+              id="name"
+              name="name"
+              value={channelName}
+              className="mb-2 form-control"
+              onChange={(e) => {
+                setChannelName(e.target.value);
+                setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
+              }}
+              isInvalid={isInvalid} // Применяем стили по условию
+              onKeyDown={handleKeyDown}
+            />
+            <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
+            <div className="invalid-feedback">{t('modals.duplicate')}</div>
+            <div className="d-flex justify-content-end">
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
               </Button>
               <Button variant="primary" onClick={upChannel} disabled={isInvalid}>
                 {t('modals.sendButton')}
               </Button>
-            </Modal.Footer>
+
+            </div>
+
           </Form.Group>
         </Form>
       </Modal.Body>
