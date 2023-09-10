@@ -82,7 +82,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
                 isInvalid={isInvalid} // Применяем стили по условию
                 onKeyDown={handleKeyDown}
               />
-              {/* <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label> */}
+              <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
               <div className="invalid-feedback">{t('modals.duplicate')}</div>
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
