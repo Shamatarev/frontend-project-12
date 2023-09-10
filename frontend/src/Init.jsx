@@ -5,8 +5,9 @@ import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { ToastContainer } from 'react-toastify'; // Импортируйте ToastContainer
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import { io } from 'socket.io-client';
+import ChatApiProvider from './contexts/ChatAPIProvider';
 import resources from './locales/index.js';
-import socket from './contexts/ProvideAPI';
 import store from './Slices/index';
 import App from './Components/App';
 
@@ -31,14 +32,19 @@ const Init = async () => {
       fallbackLng: ['en', 'ru'],
     });
 
+  const URL = '/';
+  const socket = io(URL, { autoConnect: true });
+
   return (
     <RollbarProvider config={rollbarConfig}>
       <I18nextProvider i18n={i18n}>
-        <Provider store={store} socket={socket}>
-          <ErrorBoundary>
-            <ToastContainer />
-            <App />
-          </ErrorBoundary>
+        <Provider store={store}>
+          <ChatApiProvider socket={socket}>
+            <ErrorBoundary>
+              <ToastContainer />
+              <App />
+            </ErrorBoundary>
+          </ChatApiProvider>
         </Provider>
       </I18nextProvider>
     </RollbarProvider>

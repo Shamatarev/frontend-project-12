@@ -6,13 +6,13 @@ import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
 import { AuthContext } from '../../../contexts/AuthProvider';
-import socket from '../../../contexts/ProvideAPI';
+import { useChatApi } from '../../../contexts/ChatAPIProvider';
 
 const MessageForm = ({ channelId }) => {
   const [message, setMessage] = useState('');
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
-
+  const { sendMessage: newSendMessage } = useChatApi();
   const sendMessage = () => {
     const uniqueId = _.uniqueId();
     if (message.trim() === '') {
@@ -29,7 +29,7 @@ const MessageForm = ({ channelId }) => {
       timestamp: new Date().toISOString(),
       message: censoredMessage,
     };
-    socket.emit('newMessage', newMessage);
+    newSendMessage(newMessage);
     setMessage('');
   };
 

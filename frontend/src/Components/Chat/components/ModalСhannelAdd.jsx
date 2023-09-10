@@ -9,16 +9,18 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import socket from '../../../contexts/ProvideAPI';
+import { useChatApi } from '../../../contexts/ChatAPIProvider';
 
 import { AuthContext } from '../../../contexts/AuthProvider'; // Замените на правильный путь к вашему контексту
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ChannelModalAdd = () => {
+  const { newChannelAdd } = useChatApi();
   const [show, setShow] = useState(false);
   const [channelName, setChannelName] = useState('');
   const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
   const { saveUserData } = useContext(AuthContext);
+
   const { t } = useTranslation();
 
   const handleClose = () => {
@@ -58,7 +60,7 @@ export const ChannelModalAdd = () => {
       name: channelName,
       user: saveUserData.username,
     };
-    socket.emit('newChannel', newChannel);
+    newChannelAdd(newChannel);
     setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
     handleClose();
     notify();

@@ -3,12 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import socket from '../../../contexts/ProvideAPI';
+import { useChatApi } from '../../../contexts/ChatAPIProvider';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalDel = ({
   show, handleClose, isInvalid, id,
 }) => {
+  const { remChannel } = useChatApi();
   const { t } = useTranslation();
   const notify = () => toast(t('toasts.removeChannel'));
 
@@ -16,9 +17,10 @@ const ChannelModalDel = ({
     const channelID = {
       id,
     };
+
     // отправляю событие на сервер для удаления канала по id
-    socket.emit('removeChannel', channelID);
-    handleClose(); // Закройте модальное окно после удаления
+    remChannel(channelID);
+    handleClose();
     notify();
   };
 

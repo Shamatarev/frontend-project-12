@@ -8,8 +8,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-
-import socket from '../../../contexts/ProvideAPI';
+import { useChatApi } from '../../../contexts/ChatAPIProvider';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalUpdate = ({ show, handleClose, id }) => {
@@ -19,6 +18,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const notify = () => toast(t('toasts.renameChannel'));
+  const { renChannel } = useChatApi();
 
   const upChannel = () => {
     if (channelName.trim() === '') {
@@ -40,11 +40,14 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
       id,
       name: channelName,
     };
-      <Modal.Title>{t('modals.addChannel')}</Modal.Title>;
-      socket.emit('renameChannel', newChannel);
-      setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
-      handleClose();
-      notify();
+
+    console.log(renChannel);
+    console.log(newChannel);
+
+    renChannel(newChannel);
+    setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
+    handleClose();
+    notify();
   };
 
   const handleKeyDown = (e) => {

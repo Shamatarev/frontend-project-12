@@ -6,27 +6,20 @@ import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
-import socket from '../../../contexts/ProvideAPI';
 // eslint-disable-next-line no-unused-vars
 import { addPost, selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../Slices/channels';
-import MessageForm from './Messge.jsx';
+import MessageForm from './Message.jsx';
 
 const messagesBox = () => {
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
   // const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector(selectorsMessage.selectAll);
   const summMessages = messages.filter(({ channelId }) => channelId === currentChannelId).length;
   const channels = useSelector(selectors.selectAll);
-  const { t } = useTranslation(); // Используйте хук useTranslation
-
-  const sendMessage = (e) => {
-    e.preventDefault(); // Предотвращаем перезагрузку страницы
-    socket.send(message);
-    setMessage('');
-  };
+  const { t } = useTranslation();
 
   return (
     <div className="col p-0 h-100">
@@ -55,7 +48,7 @@ const messagesBox = () => {
 
         <div id="messages-box" className="chat-messages overflow-auto px-5" />
         <div className="mt-auto px-5 py-3">
-          <form onSubmit={sendMessage}>
+          <form>
             <MessageForm channelId={currentChannelId} />
           </form>
         </div>

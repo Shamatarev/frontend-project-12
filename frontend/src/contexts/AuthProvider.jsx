@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import socket from './ProvideAPI';
 import { removeChannel } from '../Slices/channels.js';
 
 import { useDispatch } from 'react-redux';

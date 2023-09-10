@@ -1,21 +1,24 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import Header from '../common/Header';
 import ChannelsBox from './components/ChannelsBox.jsx';
 import MessagesBox from './components/MessageBox.jsx';
 import fetchData from '../../Slices/thunks';
+// eslint-disable-next-line no-unused-vars
 import { AuthContext } from '../../contexts/AuthProvider';
-import useSocket from '../../contexts/useSocket';
+import { useChatApi } from '../../contexts/ChatAPIProvider';
 
 const MainPage = () => {
   const dispatch = useDispatch();
-  const { saveUserData } = useContext(AuthContext);
+  const { useSocket } = useChatApi();
+  // const { saveUserData } = useContext(AuthContext);
 
   useEffect(() => {
     dispatch(fetchData());
-  }, [dispatch]);
+  }, [useSocket, dispatch]);
 
-  useSocket(saveUserData, dispatch);
+  useSocket();
 
   return (
     <div className="d-flex flex-column h-100">
