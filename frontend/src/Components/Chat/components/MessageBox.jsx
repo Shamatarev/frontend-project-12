@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
-
+import LeoProfanity from 'leo-profanity';
 import { selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../Slices/channels';
@@ -15,7 +15,7 @@ const messagesBox = () => {
   const summMessages = messages.filter(({ channelId }) => channelId === currentChannelId).length;
   const channels = useSelector(selectors.selectAll);
   const { t } = useTranslation();
-  // console.log(2222222, currentChannelId);
+  const profanityFilter = LeoProfanity;
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -35,7 +35,7 @@ const messagesBox = () => {
                     {user}
                     {': '}
                   </b>
-                  {message}
+                  {profanityFilter.clean(message)}
                 </div>
               ))}
           </div>
@@ -43,9 +43,7 @@ const messagesBox = () => {
 
         <div id="messages-box" className="chat-messages overflow-auto px-5" />
         <div className="mt-auto px-5 py-3">
-          <form>
-            <MessageForm channelId={currentChannelId} />
-          </form>
+          <MessageForm channelId={currentChannelId} />
         </div>
       </div>
     </div>

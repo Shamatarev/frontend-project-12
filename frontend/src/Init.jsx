@@ -6,6 +6,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { ToastContainer } from 'react-toastify'; // Импортируйте ToastContainer
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { io } from 'socket.io-client';
+import LeoProfanity from 'leo-profanity';
 import ChatApiProvider from './contexts/ChatAPIProvider';
 import resources from './locales/index.js';
 import store from './Slices/index';
@@ -31,6 +32,11 @@ const Init = async () => {
       lng: DEFAULT_LANGUAGE,
       fallbackLng: ['en', 'ru'],
     });
+
+  const profanityFilter = LeoProfanity;
+
+  profanityFilter
+    .add(profanityFilter.getDictionary('ru'), profanityFilter.getDictionary('en'));
 
   const URL = '/';
   const socket = io(URL, { autoConnect: true });

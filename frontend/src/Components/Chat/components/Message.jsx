@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { BsSend } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
-import LeoProfanity from 'leo-profanity';
+import leoProfanity from 'leo-profanity';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -13,7 +13,6 @@ const MessageForm = ({ channelId }) => {
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
   const { sendMessage: newSendMessage } = useChatApi();
-  console.log(1111111, channelId);
   const validationSchema = Yup.object().shape({
     message: Yup.string().trim().required(),
   });
@@ -22,22 +21,15 @@ const MessageForm = ({ channelId }) => {
     initialValues: { message: '' },
 
     onSubmit: async ({ message }, { resetForm, setSubmitting }) => {
-      console.log('1. Начало обработки отправки формы');
-      console.log('2. Значение поля "message":', message);
       try {
-        const profanityFilter = LeoProfanity;
-        profanityFilter.loadDictionary(['en', 'ru']);
-        const censoredMessage = profanityFilter.clean(message);
-        console.log('3. Текст после цензуры:', censoredMessage);
+        const censoredMessage = leoProfanity.clean(message);
         const newMessage = {
           channelId,
           user: saveUserData.username,
           timestamp: new Date().toISOString(),
           message: censoredMessage,
         };
-        console.log('4. Готово к отправке сообщения:', newMessage);
         await newSendMessage(newMessage);
-        console.log('5. Сообщение успешно отправлено');
         setSubmitting(true);
         resetForm();
       } catch (error) {

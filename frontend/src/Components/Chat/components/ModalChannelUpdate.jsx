@@ -20,13 +20,13 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
   const notify = () => toast(t('toasts.renameChannel'));
   const { renChannel } = useChatApi();
 
-  const upChannel = () => {
+  const updateChannel = () => {
     if (channelName.trim() === '') {
       return;
     }
     // Получаем массив id каналов из объекта entities
-    const channelIds = Object.keys(channels.entities);
-    const isDuplicate = channelIds.some((id) => {
+
+    const isDuplicate = channels.ids.some((id) => {
       const channel = channels.entities[id];
       return channel.name === channelName;
     });
@@ -49,7 +49,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      upChannel(); // Вызываем функцию отправки данных
+      updateChannel(); // Вызываем функцию отправки данных
     }
   };
 
@@ -87,7 +87,7 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
               </Button>
-              <Button variant="primary" onClick={upChannel} disabled={isInvalid}>
+              <Button variant="primary" onClick={updateChannel} disabled={isInvalid}>
                 {t('modals.sendButton')}
               </Button>
 
