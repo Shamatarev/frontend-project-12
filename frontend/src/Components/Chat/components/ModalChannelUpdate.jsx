@@ -17,6 +17,7 @@ const ChannelModalUpdate = ({
   const { renChannel } = useChatApi();
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
+  const notify = () => toast(t('toasts.renameChannel'));
 
   const validationSchema = Yup.object().shape({
     channelName: Yup.string()
@@ -47,7 +48,7 @@ const ChannelModalUpdate = ({
         await renChannel(newChannel);
         setSubmitting(true);
         resetForm();
-        // eslint-disable-next-line no-use-before-define
+        notify();
         handleClose(); // Закрыть модальное окно после отправки
       } catch (error) {
         setSubmitting(false);
