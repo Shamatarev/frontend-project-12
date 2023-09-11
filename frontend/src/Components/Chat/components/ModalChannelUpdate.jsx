@@ -1,56 +1,65 @@
-/* eslint-disable no-shadow */
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-// eslint-disable-next-line no-unused-vars
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useChatApi } from '../../../contexts/ChatAPIProvider';
+import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
+import { useFormik } from 'formik';
+import leoProfanity from 'leo-profanity';
+import { useChatApi } from '../../../contexts/ChatAPIProvider'; // Замените на правильный путь к вашему контексту
 
-const ChannelModalUpdate = ({ show, handleClose, id }) => {
-  const [isInvalid, setIsInvalid] = useState(false); // Состояние для проверки уникальности
-  const [channelName, setChannelName] = useState('');
-  // const dispatch = useDispatch();
+const ChannelModalUpdate = ({
+  show, handleClose, id,
+}) => {
+  const { renChannel } = useChatApi();
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
-  const notify = () => toast(t('toasts.renameChannel'));
-  const { renChannel } = useChatApi();
 
-  const updateChannel = () => {
-    if (channelName.trim() === '') {
-      return;
-    }
-    // Получаем массив id каналов из объекта entities
+  const validationSchema = Yup.object().shape({
+    channelName: Yup.string()
+      .trim()
+      .required('Имя канала обязательно для заполнения')
+      .test('unique-channel-name', 'Имя канала должно быть уникальным', (name) => {
+        const channelIds = Object.keys(channels.entities);
+        const isDuplicate = channelIds.some((cannelId) => {
+          const channel = channels.entities[cannelId];
+          return channel.name === name;
+        });
+        return !isDuplicate;
+      }),
+  });
 
-    const isDuplicate = channels.ids.some((id) => {
-      const channel = channels.entities[id];
-      return channel.name === channelName;
-    });
+  const formik = useFormik({
+    initialValues: {
+      channelName: '', // Изменено с name на channelName
+    },
 
-    if (isDuplicate) {
-      setIsInvalid(true);
-      return;
-    }
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        const censoredChannel = leoProfanity.clean(values.channelName);
+        const newChannel = {
+          id,
+          name: censoredChannel,
+        };
+        await renChannel(newChannel);
+        setSubmitting(true);
+        resetForm();
+        // eslint-disable-next-line no-use-before-define
+        handleClose(); // Закрыть модальное окно после отправки
+      } catch (error) {
+        setSubmitting(false);
+        toast.error(t('errors.netWorkError'));
+        console.error(error.channel);
+      }
+    },
+    validationSchema,
+  });
 
-    const newChannel = {
-      id,
-      name: channelName,
-    };
-    renChannel(newChannel);
-    setIsInvalid(false); // Сбрасываем стили и разблокируем кнопку
-    handleClose();
-    notify();
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      updateChannel(); // Вызываем функцию отправки данных
-    }
+  const sendChannel = () => {
+    formik.handleSubmit();
   };
 
   return (
@@ -59,44 +68,45 @@ const ChannelModalUpdate = ({ show, handleClose, id }) => {
       centered
       onHide={handleClose}
     >
+
       <Modal.Body>
         <Modal.Header closeButton>
           <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Form>
           <Form.Group
+            className="mb-3"
             autoFocus
           >
 
             <Form.Control
-              id="name"
-              name="name"
-              value={channelName}
-              className="mb-2 form-control"
+              id="channelName"
+              name="channelName"
+              type="text"
               placeholder={t('modals.channelName')}
-              onChange={(e) => {
-                setChannelName(e.target.value);
-                setIsInvalid(false); // Сбрасываем стили при изменении поля ввода
-              }}
-              isInvalid={isInvalid} // Применяем стили по условию
-              onKeyDown={handleKeyDown}
+              className="mb-2"
+              value={formik.values.channelName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.channelName && formik.errors.channelName}
             />
-            <Form.Label visuallyHidden for="name">{t('modals.channelName')}</Form.Label>
-            <div className="invalid-feedback">{t('modals.duplicate')}</div>
-            <div className="d-flex justify-content-end">
+            <Form.Label visuallyHidden htmlFor="channelName">
+              {t('modals.channelName')}
+            </Form.Label>
+            {formik.touched.channelName && formik.errors.channelName && (
+              <div className="invalid-feedback">{formik.errors.channelName}</div>
+            )}
+            <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
               </Button>
-              <Button variant="primary" onClick={updateChannel} disabled={isInvalid}>
+              <Button variant="primary" onClick={sendChannel} disabled={!formik.isValid}>
                 {t('modals.sendButton')}
               </Button>
-
-            </div>
-
+            </Modal.Footer>
           </Form.Group>
         </Form>
       </Modal.Body>
-
     </Modal>
   );
 };

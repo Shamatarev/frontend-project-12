@@ -1,0 +1,12 @@
+/* styles.css */
+
+.add-button {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+  }
+
+.modal-header,
+.modal-footer {
+    border: none; /* Удаляет горизонтальные линии */
+  }

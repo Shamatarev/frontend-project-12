@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectors, changeChannelId, selectCurrentChannelId } from '../../../Slices/channels';
-import { ChannelModalAdd } from './ModalСhannelAdd.jsx';
+import ChannelModalAdd from './ModalСhannelAdd.jsx';
 import ChannelButton from './ChannelButton.jsx';
 
 const ChannelsBox = () => {
