@@ -62,7 +62,10 @@ const ChannelModalUpdate = ({
   const sendChannel = () => {
     formik.handleSubmit();
   };
-
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Предотвращаем действие по умолчанию для Enter
+    formik.handleSubmit();
+  };
   return (
     <Modal
       show={show}
@@ -74,7 +77,7 @@ const ChannelModalUpdate = ({
         <Modal.Header closeButton>
           <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
         </Modal.Header>
-        <Form>
+        <Form onSubmit={handleFormSubmit}>
           <Form.Group
             className="mb-3"
             autoFocus

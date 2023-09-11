@@ -1,9 +1,10 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useFormik } from 'formik'; // Импортируйте useFormik
+import { useFormik } from 'formik';
 import { useChatApi } from '../../../contexts/ChatAPIProvider';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,6 +30,11 @@ const ChannelModalDel = ({
     },
   });
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Предотвращаем действие по умолчанию для Enter
+    formik.handleSubmit();
+  };
+
   return (
     <Modal
       show={show}
@@ -38,18 +44,19 @@ const ChannelModalDel = ({
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Footer>
-        {/* Добавьте форму с использованием Formik */}
-        <form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={handleFormSubmit}>
+
+        <Modal.Footer>
           <p className="col-6">{t('modals.submitRemove')}</p>
           <Button variant="secondary" onClick={handleClose}>
             {t('modals.cancelButton')}
           </Button>
-          <Button variant="danger" type="submit" disabled={formik.isSubmitting}>
+          <Button variant="danger" type="submit">
             {t('modals.removeButton')}
           </Button>
-        </form>
-      </Modal.Footer>
+        </Modal.Footer>
+
+      </Form>
     </Modal>
   );
 };

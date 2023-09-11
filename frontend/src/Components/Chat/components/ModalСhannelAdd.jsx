@@ -65,14 +65,11 @@ const ChannelModalAdd = () => {
     validationSchema,
   });
 
-  const sendChannel = () => {
-    formik.handleSubmit();
-  };
-
   const handleClose = () => {
     formik.resetForm();
     setShow(false);
   };
+
   return (
     <>
       <Button variant="primary" className="add-button" onClick={handleShow}>
@@ -89,12 +86,8 @@ const ChannelModalAdd = () => {
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.addChannel')}</Modal.Title>
           </Modal.Header>
-          <Form>
-            <Form.Group
-              className="mb-3"
-              autoFocus
-            >
-
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3" autoFocus>
               <Form.Control
                 id="channelName"
                 name="channelName"
@@ -110,18 +103,19 @@ const ChannelModalAdd = () => {
                 {t('modals.createChannel')}
               </Form.Label>
               {formik.touched.channelName && formik.errors.channelName && (
-                <div className="invalid-feedback">{formik.errors.channelName}</div>
+              <div className="invalid-feedback">{formik.errors.channelName}</div>
               )}
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  {t('modals.cancelButton')}
-                </Button>
-                <Button variant="primary" onClick={sendChannel} disabled={!formik.isValid}>
-                  {t('modals.sendButton')}
-                </Button>
-              </Modal.Footer>
             </Form.Group>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                {t('modals.cancelButton')}
+              </Button>
+              <Button variant="primary" type="submit" disabled={!formik.isValid}>
+                {t('modals.sendButton')}
+              </Button>
+            </Modal.Footer>
           </Form>
+
         </Modal.Body>
       </Modal>
     </>
