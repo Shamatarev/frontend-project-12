@@ -20,7 +20,7 @@ const ChannelModalAdd = () => {
   const { t } = useTranslation();
 
   const handleShow = () => setShow(true);
-
+  const notify = () => toast(t('toasts.createChannel'));
   // Убедитесь, что у вас есть объект channels с entities и ids
   const channels = useSelector((state) => state.channels);
 
@@ -53,8 +53,9 @@ const ChannelModalAdd = () => {
         await newChannelAdd(newChannel);
         setSubmitting(true);
         resetForm();
-        // eslint-disable-next-line no-use-before-define
-        handleClose(); // Закрыть модальное окно после отправки
+        notify();
+        formik.resetForm();
+        setShow(false);
       } catch (error) {
         setSubmitting(false);
         toast.error(t('errors.netWorkError'));
@@ -106,7 +107,7 @@ const ChannelModalAdd = () => {
                 isInvalid={formik.touched.channelName && formik.errors.channelName}
               />
               <Form.Label visuallyHidden htmlFor="channelName">
-                {t('modals.channelName')}
+                {t('modals.createChannel')}
               </Form.Label>
               {formik.touched.channelName && formik.errors.channelName && (
                 <div className="invalid-feedback">{formik.errors.channelName}</div>
