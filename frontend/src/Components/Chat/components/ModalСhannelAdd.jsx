@@ -100,7 +100,7 @@ const ChannelModalAdd = () => {
                 isInvalid={formik.touched.channelName && formik.errors.channelName}
               />
               <Form.Label visuallyHidden htmlFor="channelName">
-                {t('modals.createChannel')}
+                {t('modals.channelName')}
               </Form.Label>
               {formik.touched.channelName && formik.errors.channelName && (
               <div className="invalid-feedback">{formik.errors.channelName}</div>
