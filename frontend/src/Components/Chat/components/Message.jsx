@@ -1,72 +1,77 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useContext, useEffect } from 'react';
-import { InputGroup, Form, Button } from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { Form, InputGroup, Button } from 'react-bootstrap';
 import { BsSend } from 'react-icons/bs';
-import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { useChatApi } from '../../../contexts/ChatAPIProvider';
 
 const MessageForm = ({ channelId }) => {
-  const [message, setMessage] = useState('');
   const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
   const { sendMessage: newSendMessage } = useChatApi();
-  const sendMessage = () => {
-    const uniqueId = _.uniqueId();
-    if (message.trim() === '') {
-      return;
-    }
-    const profanityFilter = LeoProfanity;
-    profanityFilter.loadDictionary(['en', 'ru']);
+  console.log(1111111, channelId);
+  const validationSchema = Yup.object().shape({
+    message: Yup.string().trim().required(),
+  });
 
-    const censoredMessage = profanityFilter.clean(message);
-    const newMessage = {
-      id: uniqueId,
-      channelId,
-      user: saveUserData.username,
-      timestamp: new Date().toISOString(),
-      message: censoredMessage,
-    };
-    newSendMessage(newMessage);
-    setMessage('');
-  };
+  const formik = useFormik({
+    initialValues: { message: '' },
 
-  const handleSendButtonClick = () => {
-    sendMessage();
-  };
-
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault(); // Предотвращаем перезагрузку страницы
-        if (message.trim() !== '') {
-          sendMessage();
-        }
+    onSubmit: async ({ message }, { resetForm, setSubmitting }) => {
+      console.log('1. Начало обработки отправки формы');
+      console.log('2. Значение поля "message":', message);
+      try {
+        const profanityFilter = LeoProfanity;
+        profanityFilter.loadDictionary(['en', 'ru']);
+        const censoredMessage = profanityFilter.clean(message);
+        console.log('3. Текст после цензуры:', censoredMessage);
+        const newMessage = {
+          channelId,
+          user: saveUserData.username,
+          timestamp: new Date().toISOString(),
+          message: censoredMessage,
+        };
+        console.log('4. Готово к отправке сообщения:', newMessage);
+        await newSendMessage(newMessage);
+        console.log('5. Сообщение успешно отправлено');
+        setSubmitting(true);
+        resetForm();
+      } catch (error) {
+        setSubmitting(false);
+        toast.error(t('errors.netWorkError'));
+        console.error(error.message);
       }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [message]);
+    },
+    validationSchema,
+  });
 
   return (
-    <InputGroup className="mb-3">
-      <Form.Control
-        placeholder={t('messageFormPlaceholder')}
-        aria-label="Новое сообщение"
-        aria-describedby="basic-addon2"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <Button variant="outline-secondary" id="button-addon2" onClick={handleSendButtonClick}>
-        <BsSend />
-      </Button>
-    </InputGroup>
+    <form onSubmit={formik.handleSubmit}>
+      <InputGroup className="mb-3">
+        <Form.Control
+          type="text"
+          name="message"
+          placeholder={t('messageFormPlaceholder')}
+          aria-label="Новое сообщение"
+          aria-describedby="basic-addon2"
+          value={formik.values.message}
+          onChange={formik.handleChange}
+        />
+        <Button
+          variant="outline-secondary"
+          id="button-addon2"
+          type="submit"
+          disabled={formik.isSubmitting || formik.values.message.length === 0}
+        >
+          <BsSend />
+        </Button>
+      </InputGroup>
+    </form>
+
   );
 };
 

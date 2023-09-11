@@ -1,26 +1,21 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-shadow */
 /* eslint-disable react-hooks/rules-of-hooks */
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line no-unused-vars
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
-// eslint-disable-next-line no-unused-vars
-import { addPost, selectorsMessage } from '../../../Slices/messages';
+
+import { selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../Slices/channels';
 import MessageForm from './Message.jsx';
 
 const messagesBox = () => {
-  // const [message, setMessage] = useState('');
-  // const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector(selectorsMessage.selectAll);
   const summMessages = messages.filter(({ channelId }) => channelId === currentChannelId).length;
   const channels = useSelector(selectors.selectAll);
   const { t } = useTranslation();
-
+  // console.log(2222222, currentChannelId);
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -34,8 +29,8 @@ const messagesBox = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           <div className="text-break mb-2">
             {messages.filter(({ channelId }) => channelId === currentChannelId)
-              .map(({ user, message }, uniqueId) => (
-                <div key={uniqueId} className="text-break mb-2">
+              .map(({ user, message }) => (
+                <div key={message.id} className="text-break mb-2">
                   <b>
                     {user}
                     {': '}
