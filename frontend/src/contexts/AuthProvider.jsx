@@ -1,14 +1,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/order */
 import React, {
   useState, useEffect, createContext, useContext,
 } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import { removeChannel } from '../Slices/channels.js';
-
-import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import routes from './routes';
 
@@ -23,18 +18,7 @@ const AuthProvider = ({ children }) => {
   const [authCompleted, setAuthCompleted] = useState(false);
   // Добавляем состояние для успешной авторизации
   const [authSuccess, setAuthSuccess] = useState(false);
-  // Добавляем состояние для текущего пользователя
-  const [currentUser, setCurrentUser] = useState(null);
-  const [authError, setAuthError] = useState(null);
-  //     const handleConnectionError = () => {
-  //     // Выводим сообщение об ошибке соединения
-  //     toast.error(t('noConnection'));
-  //   };
 
-  // const handleConnectionTokenError = () => {
-  //   // Выводим сообщение об ошибке соединения
-  //   toast.error(t('fetchDataError'));
-  // };
   const logIn = async (values) => {
     try {
       const res = await axios.post(routes.loginPath(), values);
@@ -42,11 +26,8 @@ const AuthProvider = ({ children }) => {
       setLoggedIn(true);
       setAuthSuccess(true); // Устанавливаем флаг успешной авторизации
       setAuthCompleted(true);
-      // Устанавливаем имя пользователя в контекст после успешной аутентификации
-      setCurrentUser(values.username);
     } catch (error) {
       console.error('Authorization failed:', error);
-      setAuthError(error);
     }
   };
   const registerUser = async (values) => {
@@ -56,11 +37,8 @@ const AuthProvider = ({ children }) => {
       setLoggedIn(true);
       setAuthSuccess(true); // Устанавливаем флаг успешной авторизации
       setAuthCompleted(true);
-      // Устанавливаем имя пользователя в контекст после успешной аутентификации
-      setCurrentUser(values.username);
     } catch (error) {
       console.error('Authorization failed:', error);
-      setAuthError(error);
     }
   };
   const logOut = () => {
@@ -82,7 +60,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (!authCompleted) {
-      return; // Wait until authentication is completed
+      return;
     }
 
     if (authSuccess) {
@@ -94,7 +72,12 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      loggedIn, logIn, logOut, registerUser, getAuthHeader, saveUserData,
+      loggedIn,
+      saveUserData,
+      logIn,
+      logOut,
+      registerUser,
+      getAuthHeader,
     }}
     >
       {children}

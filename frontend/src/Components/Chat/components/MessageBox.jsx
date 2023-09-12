@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
-
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next'; // Импортируйте useTranslation
+import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
 import { selectorsMessage } from '../../../Slices/messages';
 import ChannelName from '../../common/ChannelName.jsx';

@@ -1,11 +1,9 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import Header from '../common/Header';
 import ChannelsBox from './components/ChannelsBox.jsx';
 import MessagesBox from './components/MessageBox.jsx';
 import fetchData from '../../Slices/thunks';
-// eslint-disable-next-line no-unused-vars
 import { AuthContext } from '../../contexts/AuthProvider';
 import { useChatApi } from '../../contexts/ChatAPIProvider';
 

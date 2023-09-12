@@ -9,9 +9,9 @@ import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import leoProfanity from 'leo-profanity';
-import { AuthContext } from '../../../contexts/AuthProvider'; // Замените на правильный путь к вашему контексту
-import { useChatApi } from '../../../contexts/ChatAPIProvider'; // Замените на правильный путь к вашему контексту
-import '../../Styles/styles.css'; // Импортируйте файл стилей
+import { AuthContext } from '../../../contexts/AuthProvider';
+import { useChatApi } from '../../../contexts/ChatAPIProvider';
+import '../../Styles/styles.css';
 
 const ChannelModalAdd = () => {
   const { newChannelAdd } = useChatApi();
@@ -21,7 +21,7 @@ const ChannelModalAdd = () => {
 
   const handleShow = () => setShow(true);
   const notify = () => toast(t('toasts.createChannel'));
-  // Убедитесь, что у вас есть объект channels с entities и ids
+
   const channels = useSelector((state) => state.channels);
 
   const validationSchema = Yup.object().shape({

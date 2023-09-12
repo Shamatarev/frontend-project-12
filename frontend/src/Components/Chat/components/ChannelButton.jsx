@@ -16,17 +16,16 @@ const ChannelButton = ({
   const dispatch = useDispatch();
   const isOpened = useSelector(modalSelectors.isModalOpened);
   const modalType = useSelector(modalSelectors.getModalType);
-  // Добавляем состояние для определения действия модального окна
   const [modalAction, setModalAction] = useState(null);
 
   const classNameMainButton = cn('w-100 rounded-0 text-start btn', {
     'btn-primary': isActive,
-    'btn-light': !isActive, // Добавляем класс btn-light для неактивных кнопок
+    'btn-light': !isActive,
   });
 
   const classNameDropdown = cn('border-0 rounded-0', {
     'btn-primary': isActive,
-    'btn-light': !isActive, // Добавляем класс btn-light для неактивных кнопок
+    'btn-light': !isActive,
   });
 
   const handleButtonClickRemoveChannel = () => {

@@ -10,7 +10,7 @@ import Signup from './SignUp/SignUp.jsx';
 import MainPage from './Chat/MainPage.jsx';
 import AuthProvider, { useAuth } from '../contexts/AuthProvider';
 import NotFound from './Errors/NotFound.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const PrivateRoute = ({ element }) => {
@@ -24,7 +24,6 @@ const App = () => (
     <Router>
       <div className="d-flex flex-column h-100">
         <Routes>
-          {/* Добавляем PrivateRoute для главной страницы */}
           <Route path="/" element={<PrivateRoute element={<MainPage />} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
