@@ -1,6 +1,5 @@
 /* eslint-disable import/order */
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -11,13 +10,6 @@ import * as Yup from 'yup';
 import Header from '../common/Header';
 import { useTranslation } from 'react-i18next';
 
-const apiPath = '/api/v1';
-
-const routes = {
-  loginPath: () => [apiPath, 'login'].join('/'),
-  usersPath: () => [apiPath, 'data'].join('/'),
-};
-
 const LoginPage = () => {
   const { t } = useTranslation();
   const auth = useAuth();
@@ -27,8 +19,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
-    password: Yup.string()
-      .required(t('required')),
+    password: Yup.string().required(t('required')),
+    username: Yup.string().required(t('required')),
   });
 
   useEffect(() => {
@@ -41,12 +33,11 @@ const LoginPage = () => {
       password: '',
     },
 
+    validationSchema,
+
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        await validationSchema.validate(values, { abortEarly: false });
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn(values);
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);

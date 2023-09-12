@@ -1,27 +1,11 @@
 /* eslint-disable no-useless-catch */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import routes from '../contexts/routes';
 
-const apiPath = '/api/v1';
-
-const routes = {
-  loginPath: () => [apiPath, 'login'].join('/'),
-  usersPath: () => [apiPath, 'data'].join('/'),
-};
-
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-
-  return {};
-};
-
-const fetchData = createAsyncThunk('fetchData', async () => {
+const fetchData = createAsyncThunk('fetchData', async (token) => {
   try {
-    const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+    const { data } = await axios.get(routes.usersPath(), { headers: token });
     // console.log('MYdata', data);
     return data;
   } catch (error) {

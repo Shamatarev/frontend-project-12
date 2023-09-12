@@ -5,7 +5,6 @@ import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import * as Yup from 'yup';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import avatar from '../../assets/avatar.jpg'; // Импорт изображения
 import Header from '../common/Header';
@@ -13,11 +12,6 @@ import { AuthContext } from '../../contexts/AuthProvider';
 
 const Signup = () => {
   const { t } = useTranslation();
-  const registerUser = async (userData) => {
-    const response = await axios.post('/api/v1/signup', userData);
-    return response.data; // Вернуть данные, полученные от сервера после регистрации
-  };
-
   const validationSchema = Yup.object({
     username: Yup.string().required('Это поле обязательно')
       .min(3, t('nameLength'))
@@ -36,7 +30,7 @@ const Signup = () => {
 
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  const { logIn } = useContext(AuthContext);
+  const { registerUser } = useContext(AuthContext);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -54,10 +48,7 @@ const Signup = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        await validationSchema.validate(values, { abortEarly: false });
-        const response = await registerUser(values); // Отправить данные на сервер
-        localStorage.setItem('token', response.token);
-        logIn(values);
+        registerUser(values);
       } catch (err) {
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);

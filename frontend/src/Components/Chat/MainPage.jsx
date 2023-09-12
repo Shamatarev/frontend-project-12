@@ -10,13 +10,14 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import { useChatApi } from '../../contexts/ChatAPIProvider';
 
 const MainPage = () => {
+  const { getAuthHeader } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { useSocket } = useChatApi();
-  // const { saveUserData } = useContext(AuthContext);
+  const token = getAuthHeader();
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [useSocket, dispatch]);
+    dispatch(fetchData(token));
+  }, [useSocket, dispatch, token]);
 
   useSocket();
 

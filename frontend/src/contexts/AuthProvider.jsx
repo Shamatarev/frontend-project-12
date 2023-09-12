@@ -49,12 +49,35 @@ const AuthProvider = ({ children }) => {
       setAuthError(error);
     }
   };
-
+  const registerUser = async (values) => {
+    try {
+      const res = await axios.post(routes.signUpPath(), values);
+      localStorage.setItem('userId', JSON.stringify(res.data));
+      setLoggedIn(true);
+      setAuthSuccess(true); // Устанавливаем флаг успешной авторизации
+      setAuthCompleted(true);
+      // Устанавливаем имя пользователя в контекст после успешной аутентификации
+      setCurrentUser(values.username);
+    } catch (error) {
+      console.error('Authorization failed:', error);
+      setAuthError(error);
+    }
+  };
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
     setAuthSuccess(false); // Сбрасываем флаг успешной авторизации
     setAuthCompleted(true);
+  };
+
+  const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+
+    return {};
   };
 
   useEffect(() => {
@@ -71,7 +94,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      loggedIn, logIn, logOut, saveUserData,
+      loggedIn, logIn, logOut, registerUser, getAuthHeader, saveUserData,
     }}
     >
       {children}

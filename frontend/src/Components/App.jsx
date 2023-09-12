@@ -6,7 +6,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import LoginPage from './Login/LoginPage.jsx';
-import Signup from './SignUp/Signup.jsx';
+import Signup from './SignUp/SignUp.jsx';
 import MainPage from './Chat/MainPage.jsx';
 import AuthProvider, { useAuth } from '../contexts/AuthProvider';
 import NotFound from './Errors/NotFound.jsx';
