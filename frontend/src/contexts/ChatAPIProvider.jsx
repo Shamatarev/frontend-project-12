@@ -9,7 +9,7 @@ import {
   updateChannelData,
   removeChannel,
 } from '../Slices/channels';
-import { addPost, removeMessagesByChannelId } from '../Slices/messages';
+import { addPost } from '../Slices/messages';
 import { AuthContext } from './AuthProvider';
 
 const ChatApiContext = createContext({});
@@ -37,7 +37,6 @@ const ChatApiProvider = ({ socket, children }) => {
       const handleRemoveChannel = (id) => {
         console.log('Сообщение с сервера:', id);
         dispatch(removeChannel(id));
-        dispatch(removeMessagesByChannelId(id));
       };
 
       socket.on('newChannel', handleNewChannel);
