@@ -1,5 +1,8 @@
 /* eslint-disable import/order */
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,6 +12,7 @@ import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изоб
 import * as Yup from 'yup';
 import Header from '../common/Header';
 import { useTranslation } from 'react-i18next';
+import routes from '../../contexts/routes';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -32,12 +36,12 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-
     validationSchema,
-
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
+        const res = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn(values);
         const from = location.state && location.state.from ? location.state.from : '/';
         navigate(from);
