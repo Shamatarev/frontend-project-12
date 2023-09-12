@@ -35,9 +35,8 @@ const Init = async () => {
 
   const profanityFilter = LeoProfanity;
 
-  profanityFilter
-    .add(profanityFilter.getDictionary('ru'))
-    .add(profanityFilter.getDictionary('en'));
+  profanityFilter.add(profanityFilter.getDictionary('ru'));
+  profanityFilter.add(profanityFilter.getDictionary('en'));
 
   const URL = '/';
   const socket = io(URL, { autoConnect: true });
