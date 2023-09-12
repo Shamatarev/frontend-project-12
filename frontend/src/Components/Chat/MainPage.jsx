@@ -15,7 +15,7 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(fetchData(token));
-  }, [useSocket, dispatch, token]);
+  }, [dispatch, token]);
 
   useSocket();
 

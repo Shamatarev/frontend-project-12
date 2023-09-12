@@ -12,6 +12,7 @@ import AuthProvider, { useAuth } from '../contexts/AuthProvider';
 import NotFound from './Errors/NotFound.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import routes from '../contexts/routes.js';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
@@ -24,14 +25,9 @@ const App = () => (
     <Router>
       <div className="d-flex flex-column h-100">
         <Routes>
-          <Route path="/" element={<PrivateRoute element={<MainPage />} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<Signup />} />
-
-          <Route
-            path="/private"
-            element={<PrivateRoute element={<MainPage />} />}
-          />
+          <Route path={routes.rootPage} element={<PrivateRoute element={<MainPage />} />} />
+          <Route path={routes.loginPage} element={<LoginPage />} />
+          <Route path={routes.signupPage} element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

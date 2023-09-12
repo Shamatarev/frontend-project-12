@@ -11,11 +11,12 @@ import ChatApiProvider from './contexts/ChatAPIProvider';
 import resources from './locales/index.js';
 import store from './Slices/index';
 import App from './Components/App';
+import routes from './contexts/routes';
 
 const userLanguage = localStorage.getItem('userLanguage');
 const DEFAULT_LANGUAGE = userLanguage ?? 'ru'; // Provider imports 'rollbar'
 
-const Init = async () => {
+const init = async () => {
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
     enabled: process.env.NODE_ENV === 'production',
@@ -33,13 +34,10 @@ const Init = async () => {
       fallbackLng: ['en', 'ru'],
     });
 
-  const profanityFilter = LeoProfanity;
+  LeoProfanity.add(LeoProfanity.getDictionary('ru'));
+  LeoProfanity.add(LeoProfanity.getDictionary('en'));
 
-  profanityFilter.add(profanityFilter.getDictionary('ru'));
-  profanityFilter.add(profanityFilter.getDictionary('en'));
-
-  const URL = '/';
-  const socket = io(URL, { autoConnect: true });
+  const socket = io(routes.rootPage, { autoConnect: true });
 
   return (
     <RollbarProvider config={rollbarConfig}>
@@ -57,4 +55,4 @@ const Init = async () => {
   );
 };
 
-export default Init;
+export default init;
