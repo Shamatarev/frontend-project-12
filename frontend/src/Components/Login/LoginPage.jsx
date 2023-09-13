@@ -1,26 +1,21 @@
-/* eslint-disable import/order */
 import React, {
-  useEffect, useRef, useState,
+  useEffect, useRef, useState, useContext,
 } from 'react';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthProvider';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
-import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import * as Yup from 'yup';
-import Header from '../common/Header';
 import { useTranslation } from 'react-i18next';
-import routes from '../../contexts/routes';
+import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
+import Header from '../common/Header';
+
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
+  const { logIn } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     password: Yup.string().required(t('required')),
@@ -37,15 +32,13 @@ const LoginPage = () => {
       password: '',
     },
     validationSchema,
+
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn(values);
-        const from = location.state && location.state.from ? location.state.from : '/';
-        navigate(from);
+        await logIn(values);
       } catch (err) {
+        console.log(1111);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
         }

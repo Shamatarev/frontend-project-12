@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import notFoundImagePath from '../../assets/notFound.jpg';
-import '../Styles/notFound.css';
+import '../styles/notFound.css';
 
 const NotFound = () => {
   const { t } = useTranslation();

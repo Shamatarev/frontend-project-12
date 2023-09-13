@@ -48,7 +48,7 @@ const Signup = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        registerUser(values);
+        await registerUser(values);
       } catch (err) {
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);

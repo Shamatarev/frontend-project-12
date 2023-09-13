@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
-  createContext, useContext, useEffect, useMemo,
+  createContext, useContext, useMemo,
 } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,13 +14,15 @@ import { AuthContext } from './AuthProvider';
 const ChatApiContext = createContext({});
 
 const ChatApiProvider = ({ socket, children }) => {
-  const useSocket = () => {
-    const dispatch = useDispatch();
-    const { saveUserData } = useContext(AuthContext);
-    useEffect(() => {
+  const dispatch = useDispatch();
+  const { saveUserData } = useContext(AuthContext);
+
+  const context = useMemo(() => {
+    const socketOn = () => {
       const handleNewChannel = (newChannel) => {
         dispatch(addChannel(newChannel));
-        if (newChannel.user === saveUserData.username) {
+        const username = saveUserData?.username;
+        if (newChannel.user === username) {
           dispatch(changeChannelId(newChannel.id));
         }
       };
@@ -43,36 +44,37 @@ const ChatApiProvider = ({ socket, children }) => {
       socket.on('renameChannel', handleRenameChannel);
       socket.on('newMessage', handleNewMessage);
       socket.on('removeChannel', handleRemoveChannel);
+    };
 
-      // Отписываемся при размонтировании компонента
-      return () => {
-        socket.off('newChannel', handleNewChannel);
-        socket.off('renameChannel', handleRenameChannel);
-        socket.off('newMessage', handleNewMessage);
-        socket.off('removeChannel', handleRemoveChannel);
-      };
-    }, [dispatch]);
-  };
-  const sendMessage = (message) => {
-    socket.emit('newMessage', message);
-  };
-  const newChannelAdd = (newChannel) => {
-    socket.emit('newChannel', newChannel);
-  };
-  const remChannel = (channelID) => {
-    socket.emit('removeChannel', channelID);
-  };
-  const renChannel = (newChannel) => {
-    socket.emit('renameChannel', newChannel);
-  };
+    const socketOff = () => {
+      socket.off();
+    };
 
-  const context = useMemo(() => ({
-    useSocket,
-    sendMessage,
-    newChannelAdd,
-    renChannel,
-    remChannel,
-  }), [useSocket, sendMessage, newChannelAdd, renChannel, remChannel]);
+    const sendMessage = (message) => {
+      socket.emit('newMessage', message);
+    };
+
+    const newChannelAdd = (newChannel) => {
+      socket.emit('newChannel', newChannel);
+    };
+
+    const remChannel = (channelID) => {
+      socket.emit('removeChannel', channelID);
+    };
+
+    const renChannel = (newChannel) => {
+      socket.emit('renameChannel', newChannel);
+    };
+
+    return {
+      socketOn,
+      socketOff,
+      sendMessage,
+      newChannelAdd,
+      renChannel,
+      remChannel,
+    };
+  }, [dispatch, socket, saveUserData]);
 
   return (
     <ChatApiContext.Provider value={context}>

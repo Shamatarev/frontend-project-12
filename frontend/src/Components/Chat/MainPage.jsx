@@ -10,14 +10,16 @@ import { useChatApi } from '../../contexts/ChatAPIProvider';
 const MainPage = () => {
   const { getAuthHeader } = useContext(AuthContext);
   const dispatch = useDispatch();
-  const { useSocket } = useChatApi();
+  const { socketOn, socketOff } = useChatApi();
   const token = getAuthHeader();
 
   useEffect(() => {
     dispatch(fetchData(token));
-  }, [dispatch, token]);
-
-  useSocket();
+    socketOn();
+    return () => {
+      socketOff();
+    };
+  }, [dispatch, token, socketOn, socketOff]);
 
   return (
     <div className="d-flex flex-column h-100">
