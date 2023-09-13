@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import leoProfanity from 'leo-profanity';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { useChatApi } from '../../../contexts/ChatAPIProvider';
-import '../../Styles/styles.css';
+import '../../styles/styles.css';
 
 const ChannelModalAdd = () => {
   const { newChannelAdd } = useChatApi();

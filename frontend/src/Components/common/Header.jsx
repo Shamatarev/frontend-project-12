@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthProvider';
 
 const header = () => {
@@ -20,7 +21,7 @@ const header = () => {
 
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">{t('chatLogo')}</a>
+        <Link to="/" className="navbar-brand">{t('chatLogo')}</Link>
         <AuthButton />
       </div>
     </nav>
