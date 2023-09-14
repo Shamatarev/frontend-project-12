@@ -35,7 +35,7 @@ const MessageForm = ({ channelId }) => {
         resetForm();
       } catch (error) {
         setSubmitting(false);
-        toast.error(t('errors.netWorkError'));
+        toast.error(t('toasts.chatApiError'));
         console.error(error.message);
       }
     },

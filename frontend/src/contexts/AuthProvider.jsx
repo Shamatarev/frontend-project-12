@@ -9,22 +9,18 @@ import routes from '../routes';
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const saveUserData = useMemo(() => (JSON.parse(localStorage.getItem('userId'))), []);
-  console.log(saveUserData);
+  const saveUserData = JSON.parse(localStorage.getItem('userId'));
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
-
   const logIn = async (values) => {
     try {
       const res = await axios.post(routes.loginPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
       setLoggedIn(true);
-
       return null;
     } catch (error) {
       if (error.response && error.response.status === 401) {
         throw error;
       }
-
       console.error('Authorization failed:', error);
       throw error;
     }
