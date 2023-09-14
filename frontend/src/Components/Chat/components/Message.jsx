@@ -11,6 +11,7 @@ import { useChatApi } from '../../../contexts/ChatAPIProvider';
 
 const MessageForm = ({ channelId }) => {
   const { saveUserData } = useContext(AuthContext);
+  console.log(saveUserData);
   const { t } = useTranslation();
   const { sendMessage: newSendMessage } = useChatApi();
   const validationSchema = Yup.object().shape({

@@ -10,6 +10,7 @@ const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   const saveUserData = useMemo(() => (JSON.parse(localStorage.getItem('userId'))), []);
+  console.log(saveUserData);
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
 
   const logIn = async (values) => {
