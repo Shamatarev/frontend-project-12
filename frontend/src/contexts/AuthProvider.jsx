@@ -4,12 +4,12 @@ import React, {
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import 'react-toastify/dist/ReactToastify.css';
-import routes from './routes';
+import routes from '../routes';
 
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const saveUserData = JSON.parse(localStorage.getItem('userId'));
+  const saveUserData = useMemo(() => (JSON.parse(localStorage.getItem('userId'))), []);
   const [loggedIn, setLoggedIn] = useState(Boolean(saveUserData));
 
   const logIn = async (values) => {

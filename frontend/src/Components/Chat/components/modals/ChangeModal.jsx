@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-
 import { Modal } from 'react-bootstrap';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { selectors as modalSelectors, actions as modalActions } from '../../../../slices/modal';
 import ChannelModalAdd from './ModalСhannelAdd';
 import ChannelModalUpdate from './ModalChannelUpdate';
@@ -19,7 +17,6 @@ const ModalWindow = () => {
   const isOpened = useSelector(modalSelectors.isModalOpened);
   const handleClose = () => dispatch(modalActions.close());
   const CurrentModal = modalOption[modalType];
-  // console.log(111111, modalType, isOpened, CurrentModal);
   return (
     <Modal show={isOpened} onHide={handleClose} centered>
       {CurrentModal && <CurrentModal handleClose={handleClose} show={isOpened} />}

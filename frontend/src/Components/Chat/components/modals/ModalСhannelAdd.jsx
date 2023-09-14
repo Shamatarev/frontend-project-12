@@ -26,7 +26,7 @@ const ChannelModalAdd = ({ handleClose }) => {
   const validationSchema = Yup.object().shape({
     channelName: Yup.string()
       .trim()
-      .required('Имя канала обязательно для заполнения')
+      .required(t('required'))
       .notOneOf(channelNames, t('modals.duplicate')),
   });
 

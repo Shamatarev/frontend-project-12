@@ -2,18 +2,18 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import leoProfanity from 'leo-profanity';
+import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
-import leoProfanity from 'leo-profanity';
-import { useChatApi } from '../../../../contexts/ChatAPIProvider'; // Замените на правильный путь к вашему контексту
+import { useChatApi } from '../../../../contexts/ChatAPIProvider';
 import { selectors as modalSelectors } from '../../../../slices/modal.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalUpdate = ({ handleClose }) => {
-  const { renChannel } = useChatApi();
+  const { renameChannel } = useChatApi();
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const channelNames = Object.values(channels.entities).map((channel) => channel.name);
@@ -39,12 +39,11 @@ const ChannelModalUpdate = ({ handleClose }) => {
           id: dataChannel.channelId,
           name: censoredChannel,
         };
-        console.log(newChannel);
-        await renChannel(newChannel);
-        setSubmitting(true);
+        await renameChannel(newChannel);
+        setSubmitting(false);
         resetForm();
         notify();
-        handleClose(); // Закрыть модальное окно после отправки
+        handleClose();
       } catch (error) {
         toast.error(t('errors.netWorkError'));
         // console.error(error.channel);
@@ -54,23 +53,17 @@ const ChannelModalUpdate = ({ handleClose }) => {
     validationSchema,
   });
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault(); // Предотвращаем действие по умолчанию для Enter
-    formik.handleSubmit();
-  };
   return (
     <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
-        <Form onSubmit={handleFormSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group
             className="mb-3"
             autoFocus
           >
-
             <Form.Control
               id="channelName"
               name="channelName"
@@ -92,7 +85,7 @@ const ChannelModalUpdate = ({ handleClose }) => {
               <Button variant="secondary" onClick={handleClose}>
                 {t('modals.cancelButton')}
               </Button>
-              <Button variant="primary" onClick={handleFormSubmit} disabled={!formik.isValid}>
+              <Button variant="primary" onClick={formik.handleSubmit} disabled={!formik.isValid}>
                 {t('modals.sendButton')}
               </Button>
             </Modal.Footer>

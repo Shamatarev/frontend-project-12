@@ -1,49 +1,11 @@
-import {
-  createContext, useContext, useMemo,
-} from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  addChannel,
-  changeChannelId,
-  updateChannelData,
-  removeChannel,
-} from '../slices/channels';
-import { addPost } from '../slices/messages';
-import { AuthContext } from './AuthProvider';
+import { createContext, useContext, useMemo } from 'react';
 
 const ChatApiContext = createContext({});
 
 const ChatApiProvider = ({ socket, children }) => {
-  const dispatch = useDispatch();
-  const { saveUserData } = useContext(AuthContext);
-
   const context = useMemo(() => {
-    const socketOn = () => {
-      const handleNewChannel = (newChannel) => {
-        dispatch(addChannel(newChannel));
-        const username = saveUserData?.username;
-        if (newChannel.user === username) {
-          dispatch(changeChannelId(newChannel.id));
-        }
-      };
-
-      const handleRenameChannel = (updChannel) => {
-        dispatch(updateChannelData(updChannel));
-      };
-
-      const handleNewMessage = (newMessage) => {
-        dispatch(addPost(newMessage));
-      };
-
-      const handleRemoveChannel = (id) => {
-        console.log('Сообщение с сервера:', id);
-        dispatch(removeChannel(id));
-      };
-
-      socket.on('newChannel', handleNewChannel);
-      socket.on('renameChannel', handleRenameChannel);
-      socket.on('newMessage', handleNewMessage);
-      socket.on('removeChannel', handleRemoveChannel);
+    const socketOn = (event, callback) => {
+      socket.on(event, callback);
     };
 
     const socketOff = () => {
@@ -58,11 +20,11 @@ const ChatApiProvider = ({ socket, children }) => {
       socket.emit('newChannel', newChannel);
     };
 
-    const remChannel = (channelID) => {
+    const removeChannel = (channelID) => {
       socket.emit('removeChannel', channelID);
     };
 
-    const renChannel = (newChannel) => {
+    const renameChannel = (newChannel) => {
       socket.emit('renameChannel', newChannel);
     };
 
@@ -71,10 +33,10 @@ const ChatApiProvider = ({ socket, children }) => {
       socketOff,
       sendMessage,
       newChannelAdd,
-      renChannel,
-      remChannel,
+      renameChannel,
+      removeChannel,
     };
-  }, [dispatch, socket, saveUserData]);
+  }, [socket]);
 
   return (
     <ChatApiContext.Provider value={context}>

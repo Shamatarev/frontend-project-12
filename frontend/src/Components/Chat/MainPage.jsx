@@ -1,26 +1,53 @@
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
+import { AuthContext } from '../../contexts/AuthProvider';
+import { useChatApi } from '../../contexts/ChatAPIProvider';
+import {
+  addChannel,
+  changeChannelId,
+  updateChannelData,
+  removeChannel,
+} from '../../slices/channels';
+import { addPost } from '../../slices/messages';
 import Header from '../common/Header';
 import ChannelsBox from './components/ChannelsBox.jsx';
 import MessagesBox from './components/MessageBox.jsx';
 import fetchData from '../../slices/thunks';
-import { AuthContext } from '../../contexts/AuthProvider';
-import { useChatApi } from '../../contexts/ChatAPIProvider';
 import ModalWindow from './components/modals/ChangeModal';
 
 const MainPage = () => {
-  const { getAuthHeader } = useContext(AuthContext);
+  const { getAuthHeader, saveUserData } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { socketOn, socketOff } = useChatApi();
   const token = getAuthHeader();
 
   useEffect(() => {
+    socketOn('newChannel', (newChannel) => {
+      dispatch(addChannel(newChannel));
+      const username = saveUserData?.username;
+      if (newChannel.user === username) {
+        dispatch(changeChannelId(newChannel.id));
+      }
+    });
+
+    socketOn('renameChannel', (updChannel) => {
+      dispatch(updateChannelData(updChannel));
+    });
+
+    socketOn('newMessage', (newMessage) => {
+      dispatch(addPost(newMessage));
+    });
+
+    socketOn('removeChannel', (id) => {
+      dispatch(removeChannel(id));
+    });
+
     dispatch(fetchData(token));
-    socketOn();
+
     return () => {
       socketOff();
     };
-  }, [dispatch, token, socketOn, socketOff]);
+  }, [dispatch, token, socketOn, socketOff, saveUserData]);
 
   return (
 

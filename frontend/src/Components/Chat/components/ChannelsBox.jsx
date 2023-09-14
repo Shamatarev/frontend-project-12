@@ -3,10 +3,9 @@ import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import { actions as modalActions } from '../../../slices/modal';
 import { selectors, changeChannelId, selectCurrentChannelId } from '../../../slices/channels';
 import ChannelButton from './ChannelButton.jsx';
-// eslint-disable-next-line no-unused-vars
-import { actions as modalActions } from '../../../slices/modal';
 
 const ChannelsBox = () => {
   const { t } = useTranslation();

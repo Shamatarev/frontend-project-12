@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity';
 import { selectorsMessage } from '../../../slices/messages';
-import ChannelName from '../../common/ChannelName.jsx';
 import { selectors } from '../../../slices/channels';
+import ChannelName from '../../common/ChannelName.jsx';
 import MessageForm from './Message.jsx';
 
 const messagesBox = () => {

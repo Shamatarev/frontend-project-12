@@ -11,7 +11,7 @@ import ChatApiProvider from './contexts/ChatAPIProvider';
 import resources from './locales/index.js';
 import store from './slices/index';
 import App from './Components/App';
-import routes from './contexts/routes';
+import routes from './routes';
 
 const userLanguage = localStorage.getItem('userLanguage');
 const DEFAULT_LANGUAGE = userLanguage ?? 'ru'; // Provider imports 'rollbar'

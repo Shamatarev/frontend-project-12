@@ -12,7 +12,7 @@ import AuthProvider, { useAuth } from '../contexts/AuthProvider';
 import NotFound from './Errors/NotFound.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import routes from '../contexts/routes.js';
+import routes from '../routes.js';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();

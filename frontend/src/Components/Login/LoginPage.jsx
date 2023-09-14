@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import Header from '../common/Header';
-
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const LoginPage = () => {
@@ -38,7 +37,6 @@ const LoginPage = () => {
       try {
         await logIn(values);
       } catch (err) {
-        console.log(1111);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
         }

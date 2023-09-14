@@ -3,28 +3,32 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useChatApi } from '../../../../contexts/ChatAPIProvider';
 import { selectors as modalSelectors } from '../../../../slices/modal.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ChannelModalDel = ({ handleClose }) => {
   const { t } = useTranslation();
-  const { remChannel } = useChatApi();
+  const { removeChannel } = useChatApi();
   const dataChannel = useSelector(modalSelectors.getModalData);
   const notify = () => toast(t('toasts.removeChannel'));
 
-  const delChannel = () => {
-    const channelID = {
-      id: dataChannel.channelId,
-    };
-    remChannel(channelID);
-    handleClose();
-    notify();
+  const deleteChannel = () => {
+    try {
+      const channelID = {
+        id: dataChannel.channelId,
+      };
+      removeChannel(channelID);
+      handleClose();
+      notify();
+    } catch (error) {
+      toast.error(t('errors.netWorkError'));
+      // console.error(error);
+    }
   };
 
   return (
-
     <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
@@ -34,13 +38,11 @@ const ChannelModalDel = ({ handleClose }) => {
         <Button variant="secondary" onClick={handleClose}>
           {t('modals.cancelButton')}
         </Button>
-        <Button variant="danger" onClick={delChannel}>
+        <Button variant="danger" onClick={deleteChannel}>
           {t('modals.removeButton')}
         </Button>
       </Modal.Footer>
-
     </>
-
   );
 };
 

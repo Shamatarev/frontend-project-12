@@ -12,7 +12,6 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     open: (state, { payload: { type, dataChannel } }) => {
-      // console.log('$$$$$$', type, dataChannel);
       state.isOpened = true;
       state.type = type;
       state.data = dataChannel;

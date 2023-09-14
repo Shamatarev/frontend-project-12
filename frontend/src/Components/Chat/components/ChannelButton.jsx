@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import ChannelName from '../../common/ChannelName.jsx';
+import { useDispatch } from 'react-redux';
+import cn from 'classnames';
 import { actions as modalActions } from '../../../slices/modal.js';
+import ChannelName from '../../common/ChannelName.jsx';
 
 const ChannelButton = ({
   channel, isActive, onClick, removable,
@@ -28,10 +27,7 @@ const ChannelButton = ({
     const dataChannel = {
       channelId: id,
     };
-    console.log('11111', dataChannel);
     if (removable) {
-      console.log('Delete button clicked');
-      console.log('removable', removable);
       dispatch(modalActions.open({ type: 'remove', dataChannel }));
     }
   };
@@ -39,7 +35,6 @@ const ChannelButton = ({
   const handleButtonUpdateClickChannel = () => {
     const dataChannel = {
       channelId: id,
-      channelName: name,
     };
     if (removable) {
       dispatch(modalActions.open({ type: 'rename', dataChannel }));
