@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import ChannelName from '../../common/ChannelName.jsx';
-import { actions as modalActions } from '../../../Slices/modal.js';
+import { actions as modalActions } from '../../../slices/modal.js';
 
 const ChannelButton = ({
   channel, isActive, onClick, removable,

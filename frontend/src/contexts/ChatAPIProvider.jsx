@@ -7,8 +7,8 @@ import {
   changeChannelId,
   updateChannelData,
   removeChannel,
-} from '../Slices/channels';
-import { addPost } from '../Slices/messages';
+} from '../slices/channels';
+import { addPost } from '../slices/messages';
 import { AuthContext } from './AuthProvider';
 
 const ChatApiContext = createContext({});

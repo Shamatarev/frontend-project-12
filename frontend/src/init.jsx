@@ -9,7 +9,7 @@ import { io } from 'socket.io-client';
 import LeoProfanity from 'leo-profanity';
 import ChatApiProvider from './contexts/ChatAPIProvider';
 import resources from './locales/index.js';
-import store from './Slices/index';
+import store from './slices/index';
 import App from './Components/App';
 import routes from './contexts/routes';
 

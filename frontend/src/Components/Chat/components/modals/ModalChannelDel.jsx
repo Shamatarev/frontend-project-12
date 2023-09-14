@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useChatApi } from '../../../../contexts/ChatAPIProvider';
-import { selectors as modalSelectors } from '../../../../Slices/modal.js';
+import { selectors as modalSelectors } from '../../../../slices/modal.js';
 
 const ChannelModalDel = ({ handleClose }) => {
   const { t } = useTranslation();

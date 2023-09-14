@@ -16,8 +16,12 @@ import routes from '../contexts/routes.js';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-  // Если пользователь не авторизован, перенаправляем на страницу логина
   return !auth.loggedIn ? <Navigate to="/login" /> : element;
+};
+
+const AuthRoute = ({ element }) => {
+  const auth = useAuth();
+  return auth.loggedIn ? <Navigate to={routes.rootPage} /> : element;
 };
 
 const App = () => (
@@ -26,8 +30,8 @@ const App = () => (
       <div className="d-flex flex-column h-100">
         <Routes>
           <Route path={routes.rootPage} element={<PrivateRoute element={<MainPage />} />} />
-          <Route path={routes.loginPage} element={<LoginPage />} />
-          <Route path={routes.signupPage} element={<Signup />} />
+          <Route path={routes.loginPage} element={<AuthRoute element={<LoginPage />} />} />
+          <Route path={routes.signupPage} element={<AuthRoute element={<Signup />} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

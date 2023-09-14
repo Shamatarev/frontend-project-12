@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import leoProfanity from 'leo-profanity';
 import { useChatApi } from '../../../../contexts/ChatAPIProvider'; // Замените на правильный путь к вашему контексту
-import { selectors as modalSelectors } from '../../../../Slices/modal.js';
+import { selectors as modalSelectors } from '../../../../slices/modal.js';
 
 const ChannelModalUpdate = ({ handleClose }) => {
   const { renChannel } = useChatApi();
@@ -46,9 +46,9 @@ const ChannelModalUpdate = ({ handleClose }) => {
         notify();
         handleClose(); // Закрыть модальное окно после отправки
       } catch (error) {
-        setSubmitting(false);
         toast.error(t('errors.netWorkError'));
-        console.error(error.channel);
+        // console.error(error.channel);
+        setSubmitting(false);
       }
     },
     validationSchema,

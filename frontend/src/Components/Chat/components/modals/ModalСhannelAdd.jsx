@@ -47,9 +47,9 @@ const ChannelModalAdd = ({ handleClose }) => {
         handleClose();
         notify();
       } catch (error) {
-        setSubmitting(false);
         toast.error(t('errors.netWorkError'));
-        console.error(error.channel);
+        // console.error(error.channel);
+        setSubmitting(false);
       }
     },
     validationSchema,
