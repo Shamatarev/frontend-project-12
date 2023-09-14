@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -9,28 +9,25 @@ import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import leoProfanity from 'leo-profanity';
-import { useChatApi } from '../../../contexts/ChatAPIProvider'; // Замените на правильный путь к вашему контексту
+import { AuthContext } from '../../../../contexts/AuthProvider';
+import { useChatApi } from '../../../../contexts/ChatAPIProvider';
+import '../../../styles/styles.css';
 
-const ChannelModalUpdate = ({
-  show, handleClose, id,
-}) => {
-  const { renChannel } = useChatApi();
+const ChannelModalAdd = ({ handleClose }) => {
+  const { newChannelAdd } = useChatApi();
+  const { saveUserData } = useContext(AuthContext);
   const { t } = useTranslation();
+
+  const notify = () => toast(t('toasts.createChannel'));
+
   const channels = useSelector((state) => state.channels);
-  const notify = () => toast(t('toasts.renameChannel'));
+  const channelNames = Object.values(channels.entities).map((channel) => channel.name);
 
   const validationSchema = Yup.object().shape({
     channelName: Yup.string()
       .trim()
       .required('Имя канала обязательно для заполнения')
-      .test('unique-channel-name', 'Имя канала должно быть уникальным', (name) => {
-        const channelIds = Object.keys(channels.entities);
-        const isDuplicate = channelIds.some((cannelId) => {
-          const channel = channels.entities[cannelId];
-          return channel.name === name;
-        });
-        return !isDuplicate;
-      }),
+      .notOneOf(channelNames, t('modals.duplicate')),
   });
 
   const formik = useFormik({
@@ -38,18 +35,17 @@ const ChannelModalUpdate = ({
       channelName: '', // Изменено с name на channelName
     },
 
-    onSubmit: async (values, { resetForm, setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         const censoredChannel = leoProfanity.clean(values.channelName);
         const newChannel = {
-          id,
           name: censoredChannel,
+          user: saveUserData.username,
         };
-        await renChannel(newChannel);
-        setSubmitting(true);
-        resetForm();
+        await newChannelAdd(newChannel);
+        setSubmitting(false);
+        handleClose();
         notify();
-        handleClose(); // Закрыть модальное окно после отправки
       } catch (error) {
         setSubmitting(false);
         toast.error(t('errors.netWorkError'));
@@ -59,30 +55,14 @@ const ChannelModalUpdate = ({
     validationSchema,
   });
 
-  const sendChannel = () => {
-    formik.handleSubmit();
-  };
-  const handleFormSubmit = (e) => {
-    e.preventDefault(); // Предотвращаем действие по умолчанию для Enter
-    formik.handleSubmit();
-  };
   return (
-    <Modal
-      show={show}
-      centered
-      onHide={handleClose}
-    >
-
+    <>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={handleFormSubmit}>
-          <Form.Group
-            className="mb-3"
-            autoFocus
-          >
-
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="mb-3" autoFocus>
             <Form.Control
               id="channelName"
               name="channelName"
@@ -100,19 +80,19 @@ const ChannelModalUpdate = ({
             {formik.touched.channelName && formik.errors.channelName && (
               <div className="invalid-feedback">{formik.errors.channelName}</div>
             )}
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                {t('modals.cancelButton')}
-              </Button>
-              <Button variant="primary" onClick={sendChannel} disabled={!formik.isValid}>
-                {t('modals.sendButton')}
-              </Button>
-            </Modal.Footer>
           </Form.Group>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              {t('modals.cancelButton')}
+            </Button>
+            <Button variant="primary" type="submit" disabled={!formik.isValid}>
+              {t('modals.sendButton')}
+            </Button>
+          </Modal.Footer>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
-export default ChannelModalUpdate;
+export default ChannelModalAdd;
