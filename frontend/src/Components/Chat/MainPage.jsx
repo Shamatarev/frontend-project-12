@@ -22,30 +22,38 @@ const MainPage = () => {
   const token = getAuthHeader();
 
   useEffect(() => {
-    socketOn('newChannel', (newChannel) => {
+    const handleNewChannel = (newChannel) => {
       dispatch(addChannel(newChannel));
-      const username = saveUserData?.username;
-      if (newChannel.user === username) {
+      if (newChannel.user === saveUserData.username) {
         dispatch(changeChannelId(newChannel.id));
       }
-    });
+    };
 
-    socketOn('renameChannel', (updChannel) => {
+    const handleRenameChannel = (updChannel) => {
       dispatch(updateChannelData(updChannel));
-    });
+    };
 
-    socketOn('newMessage', (newMessage) => {
+    const handleNewMessage = (newMessage) => {
       dispatch(addPost(newMessage));
-    });
+    };
 
-    socketOn('removeChannel', (id) => {
+    const handleRemoveChannel = (id) => {
+      console.log('Сообщение с сервера:', id);
       dispatch(removeChannel(id));
-    });
+    };
+
+    socketOn('newChannel', handleNewChannel);
+    socketOn('renameChannel', handleRenameChannel);
+    socketOn('newMessage', (handleNewMessage));
+    socketOn('removeChannel', (handleRemoveChannel));
 
     dispatch(fetchData(token));
 
     return () => {
-      socketOff();
+      socketOff('newChannel', handleNewChannel);
+      socketOff('renameChannel', handleRenameChannel);
+      socketOff('newMessage', (handleNewMessage));
+      socketOff('removeChannel', (handleRemoveChannel));
     };
   }, [dispatch, token, socketOn, socketOff, saveUserData]);
 

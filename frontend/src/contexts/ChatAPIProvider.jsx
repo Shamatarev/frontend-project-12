@@ -8,8 +8,8 @@ const ChatApiProvider = ({ socket, children }) => {
       socket.on(event, callback);
     };
 
-    const socketOff = () => {
-      socket.off();
+    const socketOff = (event, callback) => {
+      socket.off(event, callback);
     };
 
     const sendMessage = (message) => {

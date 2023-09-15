@@ -14,12 +14,12 @@ const ChannelModalDel = ({ handleClose }) => {
   const dataChannel = useSelector(modalSelectors.getModalData);
   const notify = () => toast(t('toasts.removeChannel'));
 
-  const deleteChannel = () => {
+  const deleteChannel = async () => {
     try {
       const channelID = {
         id: dataChannel.channelId,
       };
-      removeChannel(channelID);
+      await removeChannel(channelID);
       handleClose();
       notify();
     } catch (error) {

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { actions as modalActions } from '../../../slices/modal.js';
 import ChannelName from '../../common/ChannelName.jsx';
+import '../../styles/channelButton.css';
 
 const ChannelButton = ({
   channel, isActive, onClick, removable,
@@ -13,12 +14,12 @@ const ChannelButton = ({
   const { name, id } = channel;
   const dispatch = useDispatch();
 
-  const classNameMainButton = cn('w-100 rounded-0 text-start btn', {
+  const classNameMainButton = cn('w-100 rounded-0 text-start btn', 'containerbutton', {
     'btn-primary': isActive,
     'btn-light': !isActive,
   });
 
-  const classNameDropdown = cn('border-0 rounded-0', {
+  const classNameDropdown = cn('border-0 rounded-0', 'containerbutton', {
     'btn-primary': isActive,
     'btn-light': !isActive,
   });
@@ -35,6 +36,7 @@ const ChannelButton = ({
   const handleButtonUpdateClickChannel = () => {
     const dataChannel = {
       channelId: id,
+      nameChannel: name,
     };
     if (removable) {
       dispatch(modalActions.open({ type: 'rename', dataChannel }));

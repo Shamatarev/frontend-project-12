@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -29,6 +29,11 @@ const ChannelModalAdd = ({ handleClose }) => {
       .required(t('required'))
       .notOneOf(channelNames, t('modals.duplicate')),
   });
+  const input = useRef(null);
+
+  useEffect(() => {
+    input.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -64,6 +69,7 @@ const ChannelModalAdd = ({ handleClose }) => {
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" autoFocus>
             <Form.Control
+              ref={input}
               id="channelName"
               name="channelName"
               type="text"

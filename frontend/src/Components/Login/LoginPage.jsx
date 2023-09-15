@@ -6,9 +6,11 @@ import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Импорт стилей Bootstrap
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import logoHexlet from '../../assets/logo_hexlet.jpeg'; // Импорт изображения
 import Header from '../common/Header';
 import { AuthContext } from '../../contexts/AuthProvider';
+import routes from '../../routes';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -121,7 +123,7 @@ const LoginPage = () => {
                 <div className="text-center">
                   <span>{t('noAccount')}</span>
                   {' '}
-                  <a href="/signup">{t('signUp')}</a>
+                  <Link to={routes.signupPage}>{t('signUp')}</Link>
                 </div>
               </div>
             </div>

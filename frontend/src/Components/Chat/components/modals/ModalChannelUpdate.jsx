@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -19,6 +19,7 @@ const ChannelModalUpdate = ({ handleClose }) => {
   const channelNames = Object.values(channels.entities).map((channel) => channel.name);
   const dataChannel = useSelector(modalSelectors.getModalData);
   const notify = () => toast(t('toasts.renameChannel'));
+  const input = useRef(null);
 
   const validationSchema = Yup.object().shape({
     channelName: Yup.string()
@@ -27,12 +28,26 @@ const ChannelModalUpdate = ({ handleClose }) => {
       .notOneOf(channelNames, t('modals.duplicate')),
   });
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (dataChannel.nameChannel) {
+        input.current.value = dataChannel.nameChannel;
+        input.current.select();
+        input.current.focus();
+      }
+    }, 1);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [dataChannel]);
+
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
 
-    onSubmit: async (values, { resetForm, setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         const censoredChannel = leoProfanity.clean(values.channelName);
         const newChannel = {
@@ -41,7 +56,6 @@ const ChannelModalUpdate = ({ handleClose }) => {
         };
         await renameChannel(newChannel);
         setSubmitting(false);
-        resetForm();
         notify();
         handleClose();
       } catch (error) {
@@ -51,6 +65,8 @@ const ChannelModalUpdate = ({ handleClose }) => {
       }
     },
     validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
   });
 
   return (
@@ -65,6 +81,7 @@ const ChannelModalUpdate = ({ handleClose }) => {
             autoFocus
           >
             <Form.Control
+              ref={input}
               id="channelName"
               name="channelName"
               type="text"

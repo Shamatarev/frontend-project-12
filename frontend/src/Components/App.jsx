@@ -16,7 +16,7 @@ import routes from '../routes.js';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-  return !auth.loggedIn ? <Navigate to="/login" /> : element;
+  return !auth.loggedIn ? <Navigate to={routes.loginPage} /> : element;
 };
 
 const AuthRoute = ({ element }) => {

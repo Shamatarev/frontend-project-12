@@ -18,9 +18,6 @@ const AuthProvider = ({ children }) => {
       setLoggedIn(true);
       return null;
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw error;
-      }
       console.error('Authorization failed:', error);
       throw error;
     }

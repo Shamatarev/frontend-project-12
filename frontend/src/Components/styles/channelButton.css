@@ -1,0 +1,7 @@
+
+.containerbutton {
+    width: 50px; /* Ширина */
+    white-space: nowrap; /* Запрет переноса */
+    overflow: hidden; /* Скрыть текст */
+    text-overflow: ellipsis; /* Отображать многоточие*/
+  }
