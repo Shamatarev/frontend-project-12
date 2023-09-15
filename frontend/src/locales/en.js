@@ -21,7 +21,7 @@ const enLocales = {
     },
     chatApiError: 'An unexpected error occurred',
     update: 'Refresh page',
-    language: 'English',
+    language: 'Eng',
     invalidData: 'Incorrect user name or password',
     noAccount: "Don't have an account?",
     signUp: 'Sign Up',

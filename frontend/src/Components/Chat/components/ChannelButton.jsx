@@ -19,7 +19,7 @@ const ChannelButton = ({
     'btn-light': !isActive,
   });
 
-  const classNameDropdown = cn('border-0 rounded-0', 'containerbutton', {
+  const classNameDropdown = cn('border-0 rounded-0', {
     'btn-primary': isActive,
     'btn-light': !isActive,
   });
