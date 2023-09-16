@@ -29,18 +29,10 @@ const ChannelModalUpdate = ({ handleClose }) => {
   });
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (dataChannel.nameChannel) {
-        input.current.value = dataChannel.nameChannel;
-        input.current.select();
-        input.current.focus();
-      }
-    }, 1);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [dataChannel]);
+    input.current.value = dataChannel.nameChannel;
+    input.current.select();
+    input.current.focus();
+  }, [dataChannel, validationSchema]);
 
   const formik = useFormik({
     initialValues: {
