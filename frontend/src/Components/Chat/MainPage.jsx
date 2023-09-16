@@ -38,7 +38,6 @@ const MainPage = () => {
     };
 
     const handleRemoveChannel = (id) => {
-      console.log('Сообщение с сервера:', id);
       dispatch(removeChannel(id));
     };
 

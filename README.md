@@ -4,7 +4,7 @@
 
 ### Description
 
-#### [Hexlet Chat](https://frontend-project-12-production-2d23.up.railway.app)
+### [Hexlet Chat](https://frontend-project-12-production-2d23.up.railway.app)
 
 Hexlet chat is a single-page application with registration and authentication.
 All user actions are tracked and processed in real-time.
@@ -31,3 +31,13 @@ make install
 ```text
 make start
 ```
+
+![Login-Page](/frontend/src/assets/picture1.png)
+
+![Signup-Page](/frontend/src/assets/picture2.png)
+
+![Chat-Page](/frontend/src/assets/picture3.png)
+
+![modal](/frontend/src/assets/picture4.png)
+
+![modal](/frontend/src/assets/picture5.png)

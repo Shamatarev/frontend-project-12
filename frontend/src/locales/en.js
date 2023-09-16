@@ -1,5 +1,9 @@
 const enLocales = {
   translation: {
+    message: {
+      messages_one: '{{count}} message',
+      messages_other: '{{count}} messages',
+    },
     toasts: {
       createChannel: 'Channel successfully created',
       removeChannel: 'Channel successfully deleted',
@@ -39,9 +43,6 @@ const enLocales = {
     channelControl: 'Channel management',
     remove: 'Remove',
     rename: 'Rename',
-    messages_one: '{{count}} message',
-    messages_few: '{{count}} messages',
-    messages_many: '{{count}} messages',
     newMessage: 'New message',
     messageFormPlaceholder: 'Type a message...',
     send: 'Send',

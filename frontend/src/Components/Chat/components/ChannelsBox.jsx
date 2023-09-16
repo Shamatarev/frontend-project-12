@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ const ChannelsBox = () => {
   const channels = useSelector(selectors.selectAll);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const dispatch = useDispatch();
+  const channelsEndRef = useRef(null);
 
   const handleButtonClick = (channelId) => {
     dispatch(changeChannelId(channelId));
@@ -19,6 +20,12 @@ const ChannelsBox = () => {
   const handleAdd = () => {
     dispatch(modalActions.open({ type: 'add' }));
   };
+  useEffect(() => {
+    if (channelsEndRef.current) {
+      channelsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [channels, currentChannelId]);
+
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <Form className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
@@ -32,7 +39,6 @@ const ChannelsBox = () => {
         {channels.map((channel) => (
           <li key={channel.id} className="nav-item w-100">
             <ChannelButton
-              key={channel.id}
               channel={channel}
               removable={channel.removable}
               isActive={currentChannelId === channel.id}
@@ -40,6 +46,7 @@ const ChannelsBox = () => {
             />
           </li>
         ))}
+        <div ref={channelsEndRef} />
       </ul>
     </div>
   );

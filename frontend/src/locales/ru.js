@@ -1,5 +1,10 @@
 const ruLocales = {
   translation: {
+    message: {
+      messages_one: '{{count}} сообщение',
+      messages_few: '{{count}} сообщения',
+      messages_many: '{{count}} сообщений',
+    },
     toasts: {
       createChannel: 'Канал создан',
       removeChannel: 'Канал удалён',
@@ -37,9 +42,6 @@ const ruLocales = {
     channelControl: 'Управление каналом',
     remove: 'Удалить',
     rename: 'Переименовать',
-    messages_one: '{{count}} сообщение',
-    messages_few: '{{count}} сообщения',
-    messages_many: '{{count}} сообщений',
     newMessage: 'Новое сообщение',
     messageFormPlaceholder: 'Введите сообщение...',
     send: 'Отправить',
